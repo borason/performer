@@ -130,25 +130,37 @@ Track modes, the physical routing to CV/gate outputs and track linking can be co
 
 ### Note Track
 
+TODO
+
 ### Curve Track
 
+TODO
+
 ### MIDI/CV Track
+
+In MIDI/CV mode, a track acts as a MIDI to CV converter, taking MIDI note data from either the MIDI or USBMIDI input and feeding it to the CV/gate outputs. This allows for playing voices live from a keyboard or use an external MIDI sequencer to control them. In addition this mode allows the module to act as a very flexible MIDI to CV converter.
 
 ### Pattern
 
 There is a total of 16 patterns per project. Each pattern stores the sequences of all 8 tracks.
 
+TODO
+
 ### Snapshot
 
-TODO
+In addition to the 16 patterns per project, there is an additional snapshot pattern which can temporarily be used to change sequences without affecting the original sequences. Snapshots come in handy during live performance to quickly allow changing sequences and then going back to the original state or commiting the changes either to the original sequences or to a new pattern. Snapshots are controlled from the [pattern page](#pattern-page).
 
 ### Song
 
-TODO
+Songs are used to chain together a sequence of patterns. This can either be used to quickly chain together a few patterns during a live performance to get more variation or to create an entire arrangement of a song.
+
+A song consists of up to 16 slots, each holding a set of sequences to be played on the 8 tracks in addition to specifying how many times the slot is repeated when played back. Songs are controlled from the [song page](#song-page).
 
 ### Scale
 
-TODO
+In contrast to many other sequencers that directly operate on chromatic note values, the **per|former** sequencer is using the concept of voltage tables. Each note is stored as an index into a voltage table that do not necessarily have a specific musical meaning. While offering many of the more commonly used scales in form of presets, the sequencer also provides some scales beyond the typical western chromatic variants, for example a 24 tone equal temperament scale. The additional 4 user scales allow for even more experimentation as well as setting up voltage tables to specifically address discrete values of a CV input on another module. This allows for example to select a specific sample slot, choose a wavetable or similar applications.
+
+A global default scale and root note can be specified on the [project page](#project-page) which can be overriden for individual sequences in the [sequence page](#sequence-page). The user scales can be edited on the [user scale page](#user-scale-page).
 
 ### Clock
 
