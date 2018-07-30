@@ -38,6 +38,7 @@
   - [User Scale](#pages-user-scale)
   - [Monitor](#pages-monitor)
   - [Clock](#pages-clock)
+  - [Settings](#pages-settings)
 - [Controllers](#controllers)
   - [Launchpad](#controllers-launchpad)
 
@@ -108,7 +109,7 @@ The 16 sequences of the 8 tracks are collectively handled as patterns.
 
 Each of the 8 available tracks is independent of every other track. This means that every sequence of a track can have a different time division, run mode, duration or scale among other things.
 
-#### Track Mode
+<h4>Track Mode</h4>
 
 Each track can be configured to a specific mode. The following modes are available:
 
@@ -118,11 +119,11 @@ Each track can be configured to a specific mode. The following modes are availab
 
 In note mode, the default mode, a track offers advanced step sequencing for programming rhythms and melodies. Curve mode also uses step sequencing, but each step is defined as a curve shape, making this mode very versatile for generating modulation signals. In MIDI/CV mode, a track acts as a MIDI to CV converter, which can be useful when attaching a MIDI keyboard to play some voices live or sequence them from an external MIDI sequencer.
 
-#### Track Routing
+<h4>Track Routing</h4>
 
 In the default configuration, each track controls one of the CV/gate output pairs of the sequencer to control a single voice. However, this configuration can be changed to allow for more flexible routing of the virtual track outputs to the physical CV/gate outputs. For example, a MIDI/CV track can feed more than one physical CV/gate output to allow polyphonic operation or output a velocity signal in addition to the pitch signal.
 
-#### Track Linking
+<h4>Track Linking</h4>
 
 In note or curve mode, a track generates a single CV signal, typically a pitch or modulation signal. To control a voice with multiple signals, for example a pitch and velocity signal, two tracks can be linked together. The first track is used to generate the pitch signal while the second track generates the velocity signal. To make both sequences run in lock-step, the second track can be linked to the first track, essentially doubling the playback behaviour of the first track.
 
@@ -193,11 +194,11 @@ The user interface of the **per|former** sequencer is made up from the following
 
 The rotary encoder will furthermore be denoted as `ENCODER`. The buttons are split into 4 groups:
 
-#### Function Buttons
+<h4>Function Buttons</h4>
 
 There are 5 function buttons below the display: `F1`, `F2`, `F3`, `F4` and `F5`. The function associated with each button depends on the currently selected page and context. However, due to each function button being dynamically labeled on the display, its always easy to see what the associated functions are.
 
-#### Global Buttons
+<h4>Global Buttons</h4>
 
 There are 8 global buttons: `PLAY`, `TEMPO`, `PATT`, `PERF`, `PREV`, `NEXT`, `SHIFT` and `PAGE`.
 
@@ -216,11 +217,11 @@ There are 8 global buttons: `PLAY`, `TEMPO`, `PATT`, `PERF`, `PREV`, `NEXT`, `SH
 | `PAGE` | Switch between pages. |
 | `SHIFT` + `PAGE` | Open context menu on the active page. |
 
-#### Track Buttons
+<h4>Track Buttons</h4>
 
 There are 8 track buttons: `TRACK1` up to `TRACK8`. These buttons are generally used to selected the active track, but also to select pages in combination with the `PAGE` key and some other functions depending on the active page.
 
-#### Step Buttons
+<h4>Step Buttons</h4>
 
 There are 16 step buttons: `STEP1` up to `STEP16`. These buttons are generally used to select steps in a sequence, but also to select pages in combination with the `PAGE` key and some other functions depending on the active page.
 
@@ -259,7 +260,7 @@ There are 3 special pages which can be entered temporarily by just holding a sin
 
 Each page is divided into three sections.
 
-#### Header
+<h4>Header</h4>
 
 <img src="images/section-header.png"/>
 
@@ -276,13 +277,13 @@ The currently selected track is shown as `T1` - `T8`. The currently playing patt
 
 The currently active page is shown in the top-right corner and optionally a sub-page or mode is shown to its left.
 
-#### Body
+<h4>Body</h4>
 
 The _body_ is used to display the main content for the active page.
 
 <img src="images/section-main.png"/>
 
-#### Footer
+<h4>Footer</h4>
 
 <img src="images/section-footer.png"/>
 
@@ -298,11 +299,11 @@ TODO
 
 To allow moving and copying data, a copy/paste system is implemented that allows acting on the following objects:
 
-- Track (see [Track](#track-page) page)
-- Sequence (see [Sequence](#sequence-page) page)
-- Steps (see [Sequence Edit](#sequence-edit-page) page)
-- Pattern (see [Pattern](#pattern-page) page)
-- User Scale (see [User Scale](#user-scale-page) page)
+- Track (see [Track](#pages-track) page)
+- Sequence (see [Sequence](#pages-sequence) page)
+- Steps (see [Sequence Edit](#pages-sequence-edit) page)
+- Pattern (see [Pattern](#pages-pattern) page)
+- User Scale (see [User Scale](#pages-user-scale) page)
 
 > Note: Due to memory limitations, the clipboard can only hold one object at a time. This means that copying an object always results in the previously copied object beeing cleared from the clipboard.
 
@@ -320,19 +321,19 @@ TODO
 
 The _LAYOUT_ page is entered using `PAGE` + `LAYOUT`.
 
-#### Track Mode
+<h4>Track Mode</h4>
 
 <img src="images/page-layout-mode.png"/>
 
-#### Link Track
+<h4>Link Track</h4>
 
 <img src="images/page-layout-link.png"/>
 
-#### Gate Output
+<h4>Gate Output</h4>
 
 <img src="images/page-layout-gate.png"/>
 
-#### CV Output
+<h4>CV Output</h4>
 
 <img src="images/page-layout-cv.png"/>
 
@@ -372,11 +373,11 @@ TODO
 
 The _TEMPO_ page is temporarily shown while holding the `TEMPO`. On this page the tempo of the master clock is adjusted. Simply rotate the `ENCODER` to adjust the tempo. Hold and rotate the `ENCODER` to adjust the tempo in smaller steps. Hold `SHIFT` and rotate the `ENCODER` to adjust in larger steps.
 
-#### Tap Tempo
+<h4>Tap Tempo</h4>
 
 In addition to manually adjusting the tempo, it can also be set using _tap tempo_ by pressing `PLAY` in a regular interval while holding `TEMPO`.
 
-#### Nudging
+<h4>Nudging</h4>
 
 To sync the master clock _by ear_ to some other source, for example a turntable, tempo nudging is a useful feature. This allows the tempo to be temporarily increased/decreased within a 10% range. Nudging is activated by olding `TEMPO` and holding `NEXT` or `PREV` to increase/decrease the tempo.
 
@@ -400,21 +401,21 @@ On this page you can handle mutes/solos as well as fills. Similar as with patter
 
 The temporary mode is very handy to quickly trigger performance actions while working on another page.
 
-#### Mutes/Solos
+<h4>Mutes/Solos</h4>
 
 Press `TRACK[1-8]` to mute and unmute tracks or `STEP[1-8]` to solo a track. Press `F3` to unmute all tracks at once.
 
-#### Latching Mutes/Solos
+<h4>Latching Mutes/Solos</h4>
 
 To perform multiple actions at the same time, hold `F1` while executing mute, unmute or solo actions. All actions are scheduled and executed at the same time when `F1` is let go. While `F1` is hold and some actions have been scheduled, you can press `F5` to cancel them.
 
-#### Synced Mutes/Solos
+<h4>Synced Mutes/Solos</h4>
 
 To execute actions on a musical beat, hold `F2` while executing mute, unmute or solo actions. A progress bar will appear at the top of the page, indicating the time until the actions are executed. Again, while holding `F2` you can press `F5` to cancel any scheduled action.
 
 > Note: Synced actions are triggered on the beginning of a musical measure, configured on the [Project](#pages-project) page using the _SYNC MEASURE_ parameter.
 
-#### Fills
+<h4>Fills</h4>
 
 Hold `STEP[9-16]` to enable fills on individual tracks. Hold `F4` to fill all tracks at once.
 
@@ -477,6 +478,9 @@ The _CLOCK_ page is entered using `PAGE` + `CLOCK` and is used to setup the cloc
 | USBMIDI RX | yes, no | Receive MIDI clock from USBMIDI |
 | USBMIDI TX | yes, no | Send MIDI clock to USBMIDI |
 
+<h3 id="pages-settings">Settings</h2>
+
+TODO
 
 <h2 id="controllers">Controllers</h2>
 
