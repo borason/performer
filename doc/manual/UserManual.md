@@ -41,6 +41,8 @@
   - [Settings](#pages-settings)
 - [Controllers](#controllers)
   - [Launchpad](#controllers-launchpad)
+- [Appendix](#appendix)
+  - [Scales](#appendix-scales)
 
 <h2 id="introduction">Introduction</h2>
 
@@ -66,7 +68,7 @@
 - Encoder with push button
 - 32 buttons with bi-color leds
 - 5 function buttons with labels on display
-- MicroSD card slot
+- Micro SD Card slot
 
 <h2 id="concepts">Concepts</h2>
 
@@ -74,7 +76,7 @@ This chapter introduces the basic concepts of the **per|former** sequencer and s
 
 <h3 id="concepts-project">Project</h3>
 
-A project stores the complete state of the sequencer, with the exception of calibration data. Only one project can be loaded at any given time and all data is volatile, meaning that all changes are lost when the unit is powered off. To persist a project it needs to be stored to the SDCard (see [Project](#pages-project) page).
+A project stores the complete state of the sequencer, with the exception of calibration data. Only one project can be loaded at any given time and all data is volatile, meaning that all changes are lost when the unit is powered off. To persist a project it needs to be stored to the SD Card (see [Project](#pages-project) page).
 
 The following shows a high level diagram of the data contained in a project:
 
@@ -103,7 +105,7 @@ The project is split into two blocks, a global block of data and a block of data
 
 The 16 sequences of the 8 tracks are collectively handled as patterns.
 
-> Note: Calibration data is stored in the flash memory of the microcontroller and can be backed up and restored from the SDCard. This allows for changing the SDCard or run the sequencer without an SDCard at all and still have it properly calibrated.
+> Note: Calibration data is stored in the flash memory of the microcontroller and can be backed up and restored from the SD Card. This allows for changing the SD Card or run the sequencer without an SD Card at all and still have it properly calibrated.
 
 <h3 id="concepts-track">Track</h3>
 
@@ -111,7 +113,7 @@ Each of the 8 available tracks is independent of every other track. This means t
 
 <h4>Track Mode</h4>
 
-Each track can be configured to a specific mode. The following modes are available:
+Each track can be configured to a specific track mode. The following modes are available:
 
 - Note
 - Curve
@@ -127,15 +129,19 @@ In the default configuration, each track controls one of the CV/gate output pair
 
 In note or curve mode, a track generates a single CV signal, typically a pitch or modulation signal. To control a voice with multiple signals, for example a pitch and velocity signal, two tracks can be linked together. The first track is used to generate the pitch signal while the second track generates the velocity signal. To make both sequences run in lock-step, the second track can be linked to the first track, essentially doubling the playback behaviour of the first track.
 
+> Note: A track can only be linked to preceeding track due to the internal architecture of the sequencer. This means that track 1 cannot use track linking, while track 2 can only be linked to track 1. Track 8 on the other hand can be linked to any of the tracks 1-7.
+
 Track modes, the physical routing to CV/gate outputs and track linking can be configured on the [Layout](#pages-layout) page.
 
 <h3 id="concepts-note-track">Note Track</h3>
 
-In note mode, which is set by default, a track uses step sequencing to output gate and CV signals. A sequence consists of a maximum 64 steps, with each step offering a
+In note mode, the default mode, a track uses step sequencing to output gate and CV signals. A sequence consists of a maximum 64 steps and there is a total of 16 sequences in the track corresponding to the 16 patterns.
 
 TODO
 
 <h3 id="concepts-curve-track">Curve Track</h3>
+
+In curve mode, a track also uses step sequencing with similar playback features to the note track. However, each step is defined as a curve shape.
 
 TODO
 
@@ -163,7 +169,7 @@ A song consists of up to 16 slots, each holding a set of sequences to be played 
 
 In contrast to many other sequencers that directly operate on chromatic note values, the **per|former** sequencer is using the concept of voltage tables. Each note is stored as an index into a voltage table that do not necessarily have a specific musical meaning. While offering many of the more commonly used scales in form of presets, the sequencer also provides some scales beyond the typical western chromatic variants, for example a 24 tone equal temperament scale. The additional 4 user scales allow for even more experimentation as well as setting up voltage tables to specifically address discrete values of a CV input on another module. This allows for example to select a specific sample slot, choose a wavetable or similar applications.
 
-A global default scale and root note can be specified on the [Project](#pages-project) page which can be overriden for individual sequences in the [Sequence](#pages-sequence) page. The user scales can be edited on the [User Scale](#pages-user-scale) page.
+A global default scale and root note can be specified on the [Project](#pages-project) page which can be overriden for individual sequences in the [Sequence](#pages-sequence) page. The user scales can be edited on the [User Scale](#pages-user-scale) page. See [Scales](#appendix-scales) appendix for a list of all predefined scales.
 
 <h3 id="concepts-clock">Clock</h3>
 
@@ -487,3 +493,125 @@ TODO
 <h3 id="controllers-launchpad">Launchpad</h3>
 
 TODO
+
+<h2 id="appendix">Appendix</h2>
+
+<h3 id="appendix-scales">Scales</h3>
+
+<h4>Chromatic</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+| :--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | 1 | 1# | 2 | 2# | 3 | 4 | 4# | 5 | 5# | 6 | 6# | 7 |
+| Volts | 0.000 | 0.083 | 0.167 | 0.250 | 0.333 | 0.417 | 0.500 | 0.583 | 0.667 | 0.750 | 0.833 | 0.917 |
+
+<h4>Major</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| :--- | --- | --- | --- | --- | --- | --- | --- |
+| Name | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| Volts | 0.000 | 0.167 | 0.333 | 0.417 | 0.583 | 0.750 | 0.917 |
+
+<h4>Minor</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| :--- | --- | --- | --- | --- | --- | --- | --- |
+| Name | 1 | 2 | 3b | 4 | 5 | 6 | 7 |
+| Volts | 0.000 | 0.167 | 0.250 | 0.417 | 0.583 | 0.750 | 0.917 |
+
+<h4>Algerian</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| :--- | --- | --- | --- | --- | --- | --- | --- |
+| Name | 1 | 2 | 3b | 4# | 5 | 6b | 7 |
+| Volts | 0.000 | 0.167 | 0.250 | 0.500 | 0.583 | 0.667 | 0.917 |
+
+<h4>Major Pent.</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 |
+| :--- | --- | --- | --- | --- | --- |
+| Name | 1 | 2 | 3 | 5 | 6 |
+| Volts | 0.000 | 0.167 | 0.333 | 0.583 | 0.750 |
+
+<h4>Minor Pent.</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 |
+| :--- | --- | --- | --- | --- | --- |
+| Name | 1 | 3b | 4 | 5 | 7b |
+| Volts | 0.000 | 0.250 | 0.417 | 0.583 | 0.833 |
+
+<h4>Whole Tone</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 |
+| :--- | --- | --- | --- | --- | --- | --- |
+| Name | 1 | 2 | 3 | 4# | 5# | 6# |
+| Volts | 0.000 | 0.167 | 0.333 | 0.500 | 0.667 | 0.833 |
+
+<h4>Augumented</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 |
+| :--- | --- | --- | --- | --- | --- | --- |
+| Name | 1 | 3b | 3 | 5 | 5# | 7 |
+| Volts | 0.000 | 0.250 | 0.333 | 0.583 | 0.667 | 0.917 |
+
+<h4>Prometheus</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 |
+| :--- | --- | --- | --- | --- | --- | --- |
+| Name | 1 | 2 | 3 | 4# | 6 | 7b |
+| Volts | 0.000 | 0.167 | 0.333 | 0.500 | 0.750 | 0.833 |
+
+<h4>Blues</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 |
+| :--- | --- | --- | --- | --- | --- | --- |
+| Name | 1 | 3b | 4 | 5b | 5 | 7b |
+| Volts | 0.000 | 0.250 | 0.417 | 0.500 | 0.583 | 0.833 |
+
+<h4>Tritone</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 |
+| :--- | --- | --- | --- | --- | --- | --- |
+| Name | 1 | 2b | 3 | 5b | 5 | 7b |
+| Volts | 0.000 | 0.083 | 0.333 | 0.500 | 0.583 | 0.833 |
+
+<h4>5-tet</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 |
+| :--- | --- | --- | --- | --- | --- |
+| Name | 0.0 | 0.2 | 0.4 | 0.6 | 0.8 |
+| Volts | 0.000 | 0.200 | 0.400 | 0.600 | 0.800 |
+
+<h4>7-tet</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 |
+| :--- | --- | --- | --- | --- | --- | --- |
+| Name | 0.0 | 0.1 | 0.3 | 0.4 | 0.6 | 0.7 |
+| Volts | 0.000 | 0.143 | 0.286 | 0.429 | 0.571 | 0.714 |
+
+<h4>12-tet</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+| :--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | 0.0 | 0.1 | 0.2 | 0.3 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.8 | 0.9 |
+| Volts | 0.000 | 0.083 | 0.167 | 0.250 | 0.333 | 0.417 | 0.500 | 0.583 | 0.667 | 0.750 | 0.833 | 0.917 |
+
+<h4>24-tet</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 |
+| :--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | 0.0 | 0.0 | 0.1 | 0.1 | 0.2 | 0.2 | 0.3 | 0.3 | 0.3 | 0.4 | 0.4 | 0.5 | 0.5 | 0.5 | 0.6 | 0.6 | 0.7 | 0.7 | 0.8 | 0.8 | 0.8 | 0.9 | 0.9 | 1.0 |
+| Volts | 0.000 | 0.042 | 0.083 | 0.125 | 0.167 | 0.208 | 0.250 | 0.292 | 0.333 | 0.375 | 0.417 | 0.458 | 0.500 | 0.542 | 0.583 | 0.625 | 0.667 | 0.708 | 0.750 | 0.792 | 0.833 | 0.875 | 0.917 | 0.958 |
+
+<h4>1V</h4>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+| :--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Name | 0.0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 |
+| Volts | 0.000 | 0.100 | 0.200 | 0.300 | 0.400 | 0.500 | 0.600 | 0.700 | 0.800 | 0.900 |
+
+<h3 id="appendix-shapes">Shapes</h3>
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 |
+| :--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Shapes | <img width="32px" height="64px" src="images/shape-001.png"/> | <img width="32px" height="64px" src="images/shape-002.png"/> | <img width="32px" height="64px" src="images/shape-003.png"/> | <img width="32px" height="64px" src="images/shape-004.png"/> | <img width="32px" height="64px" src="images/shape-005.png"/> | <img width="32px" height="64px" src="images/shape-006.png"/> | <img width="32px" height="64px" src="images/shape-007.png"/> | <img width="32px" height="64px" src="images/shape-008.png"/> | <img width="32px" height="64px" src="images/shape-009.png"/> | <img width="32px" height="64px" src="images/shape-010.png"/> | <img width="32px" height="64px" src="images/shape-011.png"/> | <img width="32px" height="64px" src="images/shape-012.png"/> | <img width="32px" height="64px" src="images/shape-013.png"/> | <img width="32px" height="64px" src="images/shape-014.png"/> | <img width="32px" height="64px" src="images/shape-015.png"/> | <img width="32px" height="64px" src="images/shape-016.png"/> | <img width="32px" height="64px" src="images/shape-017.png"/> |
