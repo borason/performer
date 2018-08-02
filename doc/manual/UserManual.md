@@ -7,11 +7,15 @@
 <h2 id="toc">Table Of Contents</h2>
 
 <!-- toc-begin -->
+- [Table Of Contents](#toc)
 - [Introduction](#introduction)
   - [Features](#introduction-features)
 - [Concepts](#concepts)
   - [Project](#concepts-project)
   - [Track](#concepts-track)
+  - [Note Track](#concepts-note-track)
+  - [Curve Track](#concepts-curve-track)
+  - [MIDI/CV Track](#concepts-midi-cv-track)
   - [Pattern](#concepts-pattern)
   - [Snapshot](#concepts-snapshot)
   - [Song](#concepts-song)
@@ -19,23 +23,30 @@
   - [Clock](#concepts-clock)
   - [Routing](#concepts-routing)
   - [Controller](#concepts-controller)
+  - [File Management](#concepts-file-management)
+- [User Interface](#ui)
   - [Overview](#ui-overview)
   - [Navigation](#ui-navigation)
+  - [Page Layout](#ui-page-layout)
+  - [List Pages](#ui-list-pages)
   - [Copy/Paste](#ui-copy-paste)
 - [Pages](#pages)
   - [Project](#pages-project)
   - [Layout](#pages-layout)
   - [Track](#pages-track)
   - [Sequence](#pages-sequence)
+  - [Sequence Edit](#pages-sequence-edit)
   - [Song](#pages-song)
   - [Tempo](#pages-tempo)
   - [Pattern](#pages-pattern)
   - [Performer](#pages-performer)
   - [Routing](#pages-routing)
+  - [User Scale](#pages-user-scale)
   - [Monitor](#pages-monitor)
   - [Clock](#pages-clock)
 - [Appendix](#appendix)
   - [Divisors](#appendix-divisors)
+  - [Run Modes](#appendix-run-modes)
   - [Scales](#appendix-scales)
   - [Shapes](#appendix-shapes)
   - [Launchpad](#appendix-launchpad)
@@ -677,9 +688,73 @@ TODO
 
 <h3 id="appendix-divisors">Divisors</h3>
 
+Divisors are used to divide the clock ticks with a resolution of 192 PPQN into periods corresponding to musical notes. While any integer number between 1 and 192 can be used as a divisor, the following known divisor values are used to generate the commonly used musical notes:
+
+| Divisor | Duration | Name |
+| :--- | :--- | :--- |
+| 2   | 1/64T | Triplet sixty-fourth note   |
+| 3   | 1/64  | Sixty-fourth note           |
+| 4   | 1/32T | Triplet thirty-second note  |
+| 6   | 1/32  | Thirty-second note          |
+| 8   | 1/16T | Triplet sixteenth note      |
+| 9   | 1/32. | Dotted thirty-second note   |
+| 12  | 1/16  | Sixteenth note              |
+| 16  | 1/8T  | Triplet eighth note         |
+| 18  | 1/16. | Dotted sixteenth note       |
+| 24  | 1/8   | Eighth note                 |
+| 32  | 1/4T  | Triplet quarter note        |
+| 36  | 1/8.  | Dotted eighth note          |
+| 48  | 1/4   | Quarter note                |
+| 64  | 1/2T  | Triplet half note           |
+| 72  | 1/4.  | Dotted quarter note         |
+| 96  | 1/2   | Half note                   |
+| 128 | 1T    | Triplet whole note          |
+| 144 | 1/2.  | Dotted half note            |
+| 192 | 1     | Whole note                  |
+
 <!-- Run Modes -->
 
 <h3 id="appendix-run-modes">Run Modes</h3>
+
+Step sequences can be run in various run modes, which describe the order in which the steps of the sequence are played. To illustrate the different run modes, assume a sequence with `N = 8` steps, indexed from `1` to `8`:
+
+`1 2 3 4 5 6 7 8`
+
+<h4>Forward</h4>
+
+In forward mode, the sequence is played from the first to the last step and then repeated. Each iteration is exactly `N` steps:
+
+`1 2 3 4 5 6 7 8 | 1 2 3 4 5 6 7 8 | 1 ...`
+
+<h4>Backward</h4>
+
+In backward mode, the sequence is played from the last to the first step and the repeated. Each iteration is exactly `N` steps:
+
+`8 7 6 5 4 3 2 1 | 8 7 6 5 4 3 2 1 | 8 ...`
+
+<h4>Ping Pong</h4>
+
+In ping pong mode, the sequence is alternatly played in forward and backward mode. Each iteration is exactly `2 * N` steps:
+
+`1 2 3 4 5 6 7 8 8 7 6 5 4 3 2 1 | 1 ...`
+
+<h4>Pendulum</h4>
+
+In pendulum mode, the sequence is played similarly to the ping pong mode, but when changing direction, the first/last step is not played twice. This essentially shortens iteration by two steps to `2 * N - 2` steps:
+
+`1 2 3 4 5 6 7 8 7 6 5 4 3 2 | 1 ...`
+
+<h4>Random</h4>
+
+In random mode, the sequence starts with a random step and each time the sequence advances, a new random step is picked:
+
+`4 7 5 3 5 7 5 3 5 6 8 6 4 2 4 1 3 6 ...`
+
+<h4>Random Walk</h4>
+
+In random walk mode, the sequence starts with a random step and each time the sequence advances, a random coin toss is used to either pick the step to the left or to the right of the last played step. This also works across the boundary from the first to the last step of the sequence:
+
+`7 8 7 8 1 2 1 2 3 2 3 4 5 4 3 4 3 2 ...`
 
 <!-- Scales -->
 
