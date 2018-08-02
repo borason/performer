@@ -82,7 +82,7 @@ The [Concepts](#concepts) chapter introduces the overall architecture and functi
 - Encoder with push button
 - 32 buttons with bi-color leds
 - 5 function buttons with labels on display
-- Micro SD Card slot
+- Micro SD card slot
 
 <!-- Concepts -->
 
@@ -94,7 +94,7 @@ This chapter introduces the basic concepts of the sequencer and should familiari
 
 <h3 id="concepts-project">Project</h3>
 
-A project stores the complete state of the sequencer, with the exception of calibration data. Only one project can be loaded at any given time and all data is volatile, meaning that all changes are lost when the unit is powered off. To persist a project it needs to be stored to the SD Card (see [Project](#pages-project) page).
+A project stores the complete state of the sequencer, with the exception of calibration data. Only one project can be loaded at any given time and all data is volatile, meaning that all changes are lost when the unit is powered off. To persist a project it needs to be stored to the SD card (see [Project](#pages-project) page).
 
 The following shows a high level diagram of the data contained in a project:
 
@@ -123,7 +123,7 @@ The project is split into two blocks, a global block of data and a block of data
 
 The 16 sequences of the 8 tracks are collectively handled as patterns.
 
-> Note: Calibration data is stored in the flash memory of the microcontroller and can be backed up and restored from the SD Card. This allows for changing the SD Card or run the sequencer without an SD Card at all and still have it properly calibrated.
+> Note: Calibration data is stored in the flash memory of the microcontroller and can be backed up and restored from the SD card. This allows for changing the SD card or run the sequencer without an SD card at all and still have it properly calibrated.
 
 <!-- Track -->
 
@@ -231,7 +231,23 @@ TODO
 
 <h3 id="concepts-file-management">File Management</h3>
 
-TODO
+The SD card can be used to store various resources such as projects, user scales and settings. Resources are stored into slots, with each type having a total of 128 slots available. The actual content on the SD card looks as follows:
+
+- `PROJECTS/`
+  - `001.PRO`
+  - `002.PRO`
+  - `...`
+- `SCALES/`
+  - `001.SCA`
+  - `002.SCA`
+  - `...`
+- `SETTINGS.DAT`
+
+where `001.PRO` is the first project slot, `002.SCA` is the second user scale slot and `SETTINGS.DAT` is the backup of the global settings (also stored in on-chip flash memory).
+
+The reason for using a slot system rather than traditional filenames is in order to allow for a smooth user experience while preserving the limited resources on the system.
+
+> Note: The SD card can easily be backed up to a computer by just copying the files. Slots can freely be rearranged by just renaming the files.
 
 <!-- User Interface -->
 
@@ -383,7 +399,7 @@ The _Project_ page is entered using `PAGE` + `PROJECT`.
 
 <img src="images/page-project.png"/>
 
-This page allows to change project wide parameters as well loading and saving projects from/to the SD Card.
+This page allows to change project wide parameters as well loading and saving projects from/to the SD card.
 
 <h4>Parameters</h4>
 
@@ -407,9 +423,9 @@ Use `SHIFT` + `PAGE` to open the context menu for accessing the following action
 | Button | Action | Description |
 | :--- | :--- | :--- |
 | `F1` | Init | Initialize the project to its default state. This will revert all unsaved changes. |
-| `F2` | Load | Load a project from the SD Card. |
-| `F3` | Save | Save the project to the SD Card and automatically overwrite the previous slot. |
-| `F4` | Save As | Save the project to a new slot on the SD Card. |
+| `F2` | Load | Load a project from the SD card. |
+| `F3` | Save | Save the project to the SD card and automatically overwrite the previous slot. |
+| `F4` | Save As | Save the project to a new slot on the SD card. |
 | `F5` | Route | Create a new route for the currently selected parameter (only active if selected parameter is routable). |
 
 > Note: Should you ever get bored sequencing, take a break and hit `PAGE` + `STEP16`.
@@ -749,15 +765,15 @@ In backward mode, the sequence is played from the last to the first step and the
 
 `8 7 6 5 4 3 2 1 | 8 7 6 5 4 3 2 1 | 8 ...`
 
-<h4>Ping Pong</h4>
+<h4>Pendulum</h4>
 
-In ping pong mode, the sequence is alternatly played in forward and backward mode. Each iteration is exactly `2 * N` steps:
+In pendulum mode, the sequence is alternatly played in forward and backward mode. Each iteration is exactly `2 * N` steps:
 
 `1 2 3 4 5 6 7 8 8 7 6 5 4 3 2 1 | 1 ...`
 
-<h4>Pendulum</h4>
+<h4>Ping Pong</h4>
 
-In pendulum mode, the sequence is played similarly to the ping pong mode, but when changing direction, the first/last step is not played twice. This essentially shortens iteration by two steps to `2 * N - 2` steps:
+In ping pong mode, the sequence is played similarly to the pendulum mode, but when changing direction, the first/last step is not played twice. This essentially shortens the iteration by two steps to `2 * N - 2` steps:
 
 `1 2 3 4 5 6 7 8 7 6 5 4 3 2 | 1 ...`
 
