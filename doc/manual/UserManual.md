@@ -2,51 +2,54 @@
 
 <img src="../sequencer.jpg"/>
 
+<!-- TOC -->
+
 <h2 id="toc">Table Of Contents</h2>
 
+<!-- toc-begin -->
 - [Introduction](#introduction)
   - [Features](#introduction-features)
 - [Concepts](#concepts)
   - [Project](#concepts-project)
   - [Track](#concepts-track)
-  - [Note Track](#concepts-note-track)
-  - [Curve Track](#concepts-curve-track)
-  - [MIDI/CV Track](#concepts-midi-cv-track)
   - [Pattern](#concepts-pattern)
+  - [Snapshot](#concepts-snapshot)
   - [Song](#concepts-song)
   - [Scale](#concepts-scale)
   - [Clock](#concepts-clock)
   - [Routing](#concepts-routing)
   - [Controller](#concepts-controller)
-- [User Interface](#ui)
   - [Overview](#ui-overview)
   - [Navigation](#ui-navigation)
-  - [Page Layout](#ui-page-layout)
-  - [List Pages](#ui-list-pages)
   - [Copy/Paste](#ui-copy-paste)
 - [Pages](#pages)
   - [Project](#pages-project)
   - [Layout](#pages-layout)
   - [Track](#pages-track)
   - [Sequence](#pages-sequence)
-  - [Sequence Edit](#pages-sequence-edit)
   - [Song](#pages-song)
   - [Tempo](#pages-tempo)
   - [Pattern](#pages-pattern)
   - [Performer](#pages-performer)
   - [Routing](#pages-routing)
-  - [User Scale](#pages-user-scale)
   - [Monitor](#pages-monitor)
   - [Clock](#pages-clock)
-  - [Settings](#pages-settings)
-- [Controllers](#controllers)
-  - [Launchpad](#controllers-launchpad)
 - [Appendix](#appendix)
+  - [Divisors](#appendix-divisors)
   - [Scales](#appendix-scales)
+  - [Shapes](#appendix-shapes)
+  - [Launchpad](#appendix-launchpad)
+<!-- toc-end -->
+
+<!-- Introduction -->
 
 <h2 id="introduction">Introduction</h2>
 
-**per|former** is an open source and open hardware eurorack sequencer module. It packs a lot of functionality into a small form factor and was designed both as a versatile sequencer in the studio as well as for live performance.
+**per|former** is an open source and open hardware eurorack sequencer module. It packs a lot of functionality into a small form factor and was designed both as a versatile sequencer in the studio as well as for live performance. Due to the amount of functionality in this module, it is highly recommended to study this document carfully to take full advantage of all the features.
+
+The [Concepts](#concepts) chapter introduces the overall architecture and functionality of the sequencer. The [User Interface](#ui) chapter gives an overview of the user interface and introduces key concepts of how to use the sequencer. The [Pages](#pages) chapter goes into more detail in terms of functionality and user interface of the various modes and contexts in the sequencer and introduces common workflows.
+
+<!-- Features -->
 
 <h3 id="introduction-features">Features</h3>
 
@@ -70,9 +73,13 @@
 - 5 function buttons with labels on display
 - Micro SD Card slot
 
+<!-- Concepts -->
+
 <h2 id="concepts">Concepts</h2>
 
-This chapter introduces the basic concepts of the **per|former** sequencer and should familiarize readers with the overall functionality of the sequencer. More in-depth information about specific features are provided in the following chapters.
+This chapter introduces the basic concepts of the sequencer and should familiarize readers with the overall functionality of the sequencer. More in-depth information about specific features are provided in the following chapters.
+
+<!-- Project -->
 
 <h3 id="concepts-project">Project</h3>
 
@@ -107,6 +114,8 @@ The 16 sequences of the 8 tracks are collectively handled as patterns.
 
 > Note: Calibration data is stored in the flash memory of the microcontroller and can be backed up and restored from the SD Card. This allows for changing the SD Card or run the sequencer without an SD Card at all and still have it properly calibrated.
 
+<!-- Track -->
+
 <h3 id="concepts-track">Track</h3>
 
 Each of the 8 available tracks is independent of every other track. This means that every sequence of a track can have a different time division, run mode, duration or scale among other things.
@@ -133,11 +142,15 @@ In note or curve mode, a track generates a single CV signal, typically a pitch o
 
 Track modes, the physical routing to CV/gate outputs and track linking can be configured on the [Layout](#pages-layout) page.
 
+<!-- Note Track -->
+
 <h3 id="concepts-note-track">Note Track</h3>
 
 In note mode, the default mode, a track uses step sequencing to output gate and CV signals. A sequence consists of a maximum 64 steps and there is a total of 16 sequences in the track corresponding to the 16 patterns.
 
 TODO
+
+<!-- Curve Track -->
 
 <h3 id="concepts-curve-track">Curve Track</h3>
 
@@ -145,9 +158,13 @@ In curve mode, a track also uses step sequencing with similar playback features 
 
 TODO
 
+<!-- MIDI/CV Track -->
+
 <h3 id="concepts-midi-cv-track">MIDI/CV Track</h3>
 
 In MIDI/CV mode, a track acts as a MIDI to CV converter, taking MIDI note data from either the MIDI or USBMIDI input and feeding it to the CV/gate outputs. This allows for playing voices live from a keyboard or use an external MIDI sequencer to control them. In addition this mode allows the module to act as a very flexible MIDI to CV converter.
+
+<!-- Pattern -->
 
 <h3 id="concepts-pattern">Pattern</h3>
 
@@ -155,9 +172,13 @@ There is a total of 16 patterns per project. Each pattern stores the sequences o
 
 TODO
 
+<!-- Snapshot -->
+
 <h3 id="concepts-snapshot">Snapshot</h3>
 
 In addition to the 16 patterns per project, there is an additional snapshot pattern which can temporarily be used to change sequences without affecting the original sequences. Snapshots come in handy during live performance to quickly allow changing sequences and then going back to the original state or commiting the changes either to the original sequences or to a new pattern. Snapshots are controlled from the [Pattern](#pages-pattern) page.
+
+<!-- Song -->
 
 <h3 id="concepts-song">Song</h3>
 
@@ -165,29 +186,47 @@ Songs are used to chain together a sequence of patterns. This can either be used
 
 A song consists of up to 16 slots, each holding a set of sequences to be played on the 8 tracks in addition to specifying how many times the slot is repeated when played back. Songs are controlled from the [Song](#pages-song) page.
 
+<!-- Scale -->
+
 <h3 id="concepts-scale">Scale</h3>
 
 In contrast to many other sequencers that directly operate on chromatic note values, the **per|former** sequencer is using the concept of voltage tables. Each note is stored as an index into a voltage table that do not necessarily have a specific musical meaning. While offering many of the more commonly used scales in form of presets, the sequencer also provides some scales beyond the typical western chromatic variants, for example a 24 tone equal temperament scale. The additional 4 user scales allow for even more experimentation as well as setting up voltage tables to specifically address discrete values of a CV input on another module. This allows for example to select a specific sample slot, choose a wavetable or similar applications.
 
 A global default scale and root note can be specified on the [Project](#pages-project) page which can be overriden for individual sequences in the [Sequence](#pages-sequence) page. The user scales can be edited on the [User Scale](#pages-user-scale) page. See [Scales](#appendix-scales) appendix for a list of all predefined scales.
 
+<!-- Clock -->
+
 <h3 id="concepts-clock">Clock</h3>
 
-The sequencer is driven by a flexible clock system. In master mode, the clock is generated internally and can be sent to external gear and modules using MIDI clock and analog clock signals. In slave mode, the clock is received from an external source via MIDI or analog clock sigals. For convenience, the clock is by default set to an auto mode that automatically switches to master mode when the sequencer is started manually or switches to the slave mode when an external clock signal is detected.
+The sequencer is driven by a flexible clock system. In master mode, the clock is generated internally and can be sent to external gear and modules using MIDI clock and analog clock signals. In slave mode, the clock is received from an external source via MIDI or analog clock signals. For convenience, the clock is by default set to an auto mode that automatically switches to master mode when the sequencer is started manually or switches to the slave mode when an external clock signal is detected.
 
-To allow accurate and tight timing, the internal clock resolution is 192 parts per quarter note (PPQN). In master mode, a hardware timer is used to generate an accurate, low-jitter clock signal. To drive external clock sigals, the internal clock is divided down to the required PPQN of the external clock signals. In slave mode, the external clock signal is multiplied internally to generate the 192 PPQN internal clock resolution, which in turn is used to clock the sequencer as well as the external clock signals.
+To allow accurate and tight timing, the internal clock resolution is 192 parts per quarter note (PPQN). In master mode, a hardware timer is used to generate an accurate, low-jitter clock signal. To drive external clock signals, the internal clock is divided down to the required PPQN of the external clock signals. In slave mode, the external clock signal is multiplied internally to generate the 192 PPQN internal clock resolution, which in turn is used to clock the sequencer as well as the external clock signals.
 
 TODO
+
+<!-- Routing -->
 
 <h3 id="concepts-routing">Routing</h3>
 
 TODO
 
+<!-- Controller -->
+
 <h3 id="concepts-controller">Controller</h3>
 
 TODO
 
+<!-- File Management -->
+
+<h3 id="concepts-file-management">File Management</h3>
+
+TODO
+
+<!-- User Interface -->
+
 <h2 id="ui">User Interface</h2>
+
+<!-- Overview -->
 
 <h3 id="ui-overview">Overview</h3>
 
@@ -231,6 +270,8 @@ There are 8 track buttons: `TRACK1` up to `TRACK8`. These buttons are generally 
 
 There are 16 step buttons: `STEP1` up to `STEP16`. These buttons are generally used to select steps in a sequence, but also to select pages in combination with the `PAGE` key and some other functions depending on the active page.
 
+<!-- Navigation -->
+
 <h3 id="ui-navigation">Navigation</h3>
 
 The user interface is organized in multiple pages, each page giving access to a different part of the sequencer such as:
@@ -261,6 +302,8 @@ The active page is selected by holding the `PAGE` button and pressing the corres
 There are 3 special pages which can be entered temporarily by just holding a single button, namely the [Tempo](#pages-tempo), [Pattern](#pages-pattern) and [Performer](#pages-performer) pages. These pages give access to performance related features which need to be quickly accessible.
 
 > Note: While holding `PAGE`, the leds are used to indicate the currently selected page as well as marking the buttons associated with a page.
+
+<!-- Page Layout -->
 
 <h3 id="ui-page-layout">Page Layout</h3>
 
@@ -295,15 +338,19 @@ The _body_ is used to display the main content for the active page.
 
 The _footer_ is used to display the labels of the function keys for the current page. On pages that provide a context menu, the labels dynamically change to the context menu actions when `SHIFT` + `PAGE` is hold.
 
+<!-- List Pages -->
+
 <h3 id="ui-list-pages">List Pages</h3>
 
-Pages that expose configuration options are typically presented as a list of name/value pairs.
+Pages that expose configuration options are typically presented as a list of items, each having the name shown on the left and the value on the right side.
 
-TODO
+Turn the `ENCODER` or use `<`, `>` to navigate up and down the list. Press `ENCODER` to enter and leave edit mode which is indicated by moving the highlight from the item name to the item value and back. While in edit mode, turn the `ENCODER` or use `<`, `>` to adjust the value. Hold `SHIFT` to change the value in larger or smaller steps depending on the edited item.
+
+<!-- Copy/Paste -->
 
 <h3 id="ui-copy-paste">Copy/Paste</h3>
 
-To allow moving and copying data, a copy/paste system is implemented that allows acting on the following objects:
+To allow moving and copying data, a copy/paste system is implemented that allows acting on the following types of objects:
 
 - Track (see [Track](#pages-track) page)
 - Sequence (see [Sequence](#pages-sequence) page)
@@ -311,21 +358,54 @@ To allow moving and copying data, a copy/paste system is implemented that allows
 - Pattern (see [Pattern](#pages-pattern) page)
 - User Scale (see [User Scale](#pages-user-scale) page)
 
-> Note: Due to memory limitations, the clipboard can only hold one object at a time. This means that copying an object always results in the previously copied object beeing cleared from the clipboard.
+> Note: Due to memory limitations, the clipboard can only hold one object at a time and shares memory across all different types. This means that copying an object always results in the previously copied object beeing cleared from the clipboard.
+
+<!-- Pages -->
 
 <h2 id="pages">Pages</h2>
 
+<!-- Project -->
+
 <h3 id="pages-project">Project</h3>
 
-The _PROJECT_ page is entered using `PAGE` + `PROJECT`.
-
-TODO
+The _Project_ page is entered using `PAGE` + `PROJECT`.
 
 <img src="images/page-project.png"/>
 
+This page allows to change project wide parameters as well loading and saving projects from/to the SD Card.
+
+<h4>Parameters</h4>
+
+The following parameters are available:
+
+| Item | Range | Description |
+| :--- | :--- | :--- |
+| Name | - | Press `ENCODER` to enter text editor. |
+| Tempo | 1.0 - 1000.0 BPM | Tempo of the master clock. |
+| Swing | 50% - 75% | Global swing amount. |
+| Sync Measure | 1 - 128 | Multiple of bars/measures at which to execute _syncing_ (see [Pattern](#pages-pattern) and [Performer](#pages-performer) pages) as well as the duration each pattern slot is played for in song mode (see [Song](#pages-song) page). |
+| Scale | [Scale](#appendix-scales) | Default scale. Can be overwritten per sequence on the [Sequence](#pages-sequence) page. |
+| Root Note | C, C#, D, D#, E, F, F#, G, G#, A, B | Default root note. Can be overwritten per sequence on the [Sequence](#pages-sequence) page. |
+
+<h4>Actions</h4>
+
+Use `SHIFT` + `PAGE` to open the context menu for accessing the following actions:
+
+| Button | Action | Description |
+| :--- | :--- | :--- |
+| `F1` | Init | Initialize the project to its default state. This will revert all unsaved changes. |
+| `F2` | Load | Load a project from the SD Card. |
+| `F3` | Save | Save the project to the SD Card and automatically overwrite the previous slot. |
+| `F4` | Save As | Save the project to a new slot on the SD Card. |
+| `F5` | Route | Create a new route for the currently selected parameter (only active if selected parameter is routable). |
+
+> Note: Should you ever get bored sequencing, take a break and hit `PAGE` + `STEP16`.
+
+<!-- Layout -->
+
 <h3 id="pages-layout">Layout</h3>
 
-The _LAYOUT_ page is entered using `PAGE` + `LAYOUT`.
+The _Layout_ page is entered using `PAGE` + `LAYOUT`.
 
 <h4>Track Mode</h4>
 
@@ -343,41 +423,120 @@ The _LAYOUT_ page is entered using `PAGE` + `LAYOUT`.
 
 <img src="images/page-layout-cv.png"/>
 
+<!-- Track -->
+
 <h3 id="pages-track">Track</h3>
 
-The _TRACK_ page is entered using `PAGE` + `TRACK`.
-
-TODO
+The _Track_ page is entered using `PAGE` + `TRACK`.
 
 <img src="images/page-track.png"/>
 
+This page allows to change track wide settings. Note that the parameters depend on the configured _Track Mode_ of the selected track.
+
+Use `SHIFT` + `PAGE` to open the context menu for accessing the following actions:
+
+| Button | Action | Description |
+| :--- | :--- | :--- |
+| `F1` | Init | Initialize the track and all its content to the default state. |
+| `F2` | Copy | Copy the selected track and all its content to the clipboard. |
+| `F3` | Paste | Paste the clipboard to the selected track. |
+| `F4` | Route | Create a new route for the currently selected parameter (only active if selected parameter is routable). |
+
+<h4>Note Track</h4>
+
+TODO image
+
+The following parameters are available:
+
+| Item | Range | Description |
+| :--- | :--- | :--- |
+| Play Mode | Free, Aligned |  |
+| Fill Mode | Gates, Next Pattern |  |
+| Slide Time | 0% - 100% |  |
+| Octave | -10 - +10 |  |
+| Transpose | -100 - +100 |
+| Rotate | -64 - +64 |  |
+| Step P. Bias | -100% - +100% | |
+| Step L. Bias | -100% - +100% | |
+
+<h4>Curve Track</h4>
+
+TODO image
+
+The following parameters are available:
+
+| Item | Range | Description |
+| :--- | :--- | :--- |
+| Play Mode | Free, Aligned |  |
+| Fill Mode | Gates, Next Pattern |  |
+| Rotate | -64 - +64 |  |
+
+<h4>MIDI/CV Track</h4>
+
+TODO image
+
+The following parameters are available:
+
+| Item | Range | Description |
+| :--- | :--- | :--- |
+| MIDI Port | Free, Aligned |  |
+| MIDI Channel | Gates, Next Pattern |  |
+| Voices | -64 - +64 |  |
+| Voice Config | -64 - +64 |  |
+| Pitch Bend | -64 - +64 |  |
+| Mod Range | -64 - +64 |  |
+| Retrigger | -64 - +64 |  |
+
+<!-- Sequence -->
+
 <h3 id="pages-sequence">Sequence</h3>
 
-The _SEQUENCE_ page is entered using `PAGE` + `SEQ`.
-
-TODO
+The _Sequence_ page is entered using `PAGE` + `SEQ`.
 
 <img src="images/page-sequence.png"/>
 
+<h4>Note Track</h4>
+
+The following parameters are available:
+
+| Item | Range | Description |
+| :--- | :--- | :--- |
+| Scale | [Scale](#appendix-scales) | Scale to use for this sequence. If set to _Default_, uses the default scale set on the [Project](#pages-project) page. |
+| Root Note | C, C#, D, D#, E, F, F#, G, G#, A, B | Root note to use for this sequence. If set to _Default_, uses the default root note set on the [Project](#pages-project) page. |
+| Divisor | [Divisor](#appendix-divisors) | The time divisor for this sequence. |
+| Reset Measure | off, 1 - 128 |  |
+| Run Mode | [Run Mode](#appendix-run-modes) |  |
+| First Step | 1 - 64 |  |
+| Last Step | 1 - 64 |  |
+
+<h4>Curve Track</h4>
+
+
+<!-- Sequence Edit -->
+
 <h3 id="pages-sequence-edit">Sequence Edit</h3>
 
-The _SEQUENCE EDIT_ page is entered using `PAGE` + `SEQ EDIT`.
+The _Sequence Edit_ page is entered using `PAGE` + `SEQ EDIT`.
 
 TODO
 
 <img src="images/page-sequence-edit.png"/>
 
+<!-- Song -->
+
 <h3 id="pages-song">Song</h3>
 
-The _SONG_ page is entered using `PAGE` + `SONG`.
+The _Song_ page is entered using `PAGE` + `SONG`.
 
 TODO
 
 <img src="images/page-song.png"/>
 
+<!-- Tempo -->
+
 <h3 id="pages-tempo">Tempo</h3>
 
-The _TEMPO_ page is temporarily shown while holding the `TEMPO`. On this page the tempo of the master clock is adjusted. Simply rotate the `ENCODER` to adjust the tempo. Hold and rotate the `ENCODER` to adjust the tempo in smaller steps. Hold `SHIFT` and rotate the `ENCODER` to adjust in larger steps.
+The _Tempo_ page is temporarily shown while holding the `TEMPO`. On this page the tempo of the master clock is adjusted. Simply rotate the `ENCODER` to adjust the tempo. Hold and rotate the `ENCODER` to adjust the tempo in smaller steps. Hold `SHIFT` and rotate the `ENCODER` to adjust in larger steps.
 
 <h4>Tap Tempo</h4>
 
@@ -389,19 +548,23 @@ To sync the master clock _by ear_ to some other source, for example a turntable,
 
 > Note: The tempo is incrementally increased/decreased up to 10%, so one needs to hold both `TEMPO` and `NEXT` or `PREV` for a small amount of time to get an effect.
 
+<!-- Pattern -->
+
 <h3 id="pages-pattern">Pattern</h3>
 
 **TODO:** insert image
 
-The _PATTERN_ page can either be permanently entered using `PAGE` + `PATT` or just temporarily while holding `PATT`.
+The _Pattern_ page can either be permanently entered using `PAGE` + `PATT` or just temporarily while holding `PATT`.
 
 On this page you can handle pattern changes as well as selecting the currently edited pattern.
+
+<!-- Performer -->
 
 <h3 id="pages-performer">Performer</h3>
 
 **TODO:** insert image
 
-The _PERFORMER_ page can either be permanently entered using `PAGE` + `PERF` or just temporarily while holding `PERF`.
+The _Performer_ page can either be permanently entered using `PAGE` + `PERF` or just temporarily while holding `PERF`.
 
 On this page you can handle mutes/solos as well as fills. Similar as with pattern changes you can also schedule mute, unmute or solo actions either by using _latching_ or _syncing_.
 
@@ -419,56 +582,72 @@ To perform multiple actions at the same time, hold `F1` while executing mute, un
 
 To execute actions on a musical beat, hold `F2` while executing mute, unmute or solo actions. A progress bar will appear at the top of the page, indicating the time until the actions are executed. Again, while holding `F2` you can press `F5` to cancel any scheduled action.
 
-> Note: Synced actions are triggered on the beginning of a musical measure, configured on the [Project](#pages-project) page using the _SYNC MEASURE_ parameter.
+> Note: Synced actions are triggered on the beginning of a musical measure, configured on the [Project](#pages-project) page using the _Sync Measure_ parameter.
 
 <h4>Fills</h4>
 
 Hold `STEP[9-16]` to enable fills on individual tracks. Hold `F4` to fill all tracks at once.
 
-> Note: There are different fill modes that can be configured per track on the [Track](#pages-track) page using the _FILL MODE_ parameter.
+> Note: There are different fill modes that can be configured per track on the [Track](#pages-track) page using the _Fill Mode_ parameter.
 
 <h3 id="pages-routing">Routing</h3>
 
-The _ROUTING_ page is entered using `PAGE` + `ROUTING`.
+<!-- Routing -->
+
+The _Routing_ page is entered using `PAGE` + `ROUTING`.
 
 TODO
 
 <img src="images/page-routing.png"/>
 <img src="images/page-routing-route.png"/>
 
+<!-- User Scale -->
+
 <h3 id="pages-user-scale">User Scale</h3>
 
-The _USER SCALE_ page is entered using `PAGE` + `USER SCALE`. Here you can edit the 4 user scales stored in the project.
+The _User Scale_ page is entered using `PAGE` + `USER SCALE`. Here you can edit the 4 user scales stored in the project.
 
 TODO
 
 <img src="images/page-user-scale.png"/>
 
+<!-- Monitor -->
+
 <h3 id="pages-monitor">Monitor</h3>
 
-The _MONITOR_ page is entered using `PAGE` + `MONITOR`.
+The _Monitor_ page is entered using `PAGE` + `MONITOR`.
 
-The first tab (`F1`) shows the current voltages of the CV inputs:
+<h4>CV Inputs</h4>
+
+The first tab (`F1`) shows the current voltages of the CV inputs.
 
 <img src="images/page-monitor-cv-in.png"/>
 
-The second tab (`F2`) shows the current voltages of the CV outputs:
+<h4>CV Outputs</h4>
+
+The second tab (`F2`) shows the current voltages of the CV outputs.
 
 <img src="images/page-monitor-cv-out.png"/>
 
-The third tab (`F3`) shows incoming MIDI messages:
+<h4>MIDI</h4>
+
+The third tab (`F3`) shows incoming MIDI messages.
 
 <img src="images/page-monitor-midi.png"/>
 
-The fourth tab (`F4`) shows some general stats of the sequencer such as the total uptime and overflows of the MIDI message queues:
+<h4>Stats</h4>
+
+The fourth tab (`F4`) shows some general stats of the sequencer such as the total uptime and overflows of the MIDI message queues.
 
 <img src="images/page-monitor-stats.png"/>
 
+<!-- Clock -->
+
 <h3 id="pages-clock">Clock</h3>
 
-<img src="images/page-clock.png"/>
+The _Clock_ page is entered using `PAGE` + `CLOCK` and is used to setup the clock system of the sequencer.
 
-The _CLOCK_ page is entered using `PAGE` + `CLOCK` and is used to setup the clock system of the sequencer.
+<img src="images/page-clock.png"/>
 
 | Value  | Range | Description |
 | :--- | :--- | :--- |
@@ -484,17 +663,25 @@ The _CLOCK_ page is entered using `PAGE` + `CLOCK` and is used to setup the cloc
 | USBMIDI RX | yes, no | Receive MIDI clock from USBMIDI |
 | USBMIDI TX | yes, no | Send MIDI clock to USBMIDI |
 
+<!-- Settings -->
+
 <h3 id="pages-settings">Settings</h2>
 
 TODO
 
-<h2 id="controllers">Controllers</h2>
-
-<h3 id="controllers-launchpad">Launchpad</h3>
-
-TODO
+<!-- Appendix -->
 
 <h2 id="appendix">Appendix</h2>
+
+<!-- Divisors -->
+
+<h3 id="appendix-divisors">Divisors</h3>
+
+<!-- Run Modes -->
+
+<h3 id="appendix-run-modes">Run Modes</h3>
+
+<!-- Scales -->
 
 <h3 id="appendix-scales">Scales</h3>
 
@@ -610,8 +797,16 @@ TODO
 | Name | 0.0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 |
 | Volts | 0.000 | 0.100 | 0.200 | 0.300 | 0.400 | 0.500 | 0.600 | 0.700 | 0.800 | 0.900 |
 
+<!-- Shapes -->
+
 <h3 id="appendix-shapes">Shapes</h3>
 
 | Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 |
 | :--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Shapes | <img width="32px" height="64px" src="images/shape-001.png"/> | <img width="32px" height="64px" src="images/shape-002.png"/> | <img width="32px" height="64px" src="images/shape-003.png"/> | <img width="32px" height="64px" src="images/shape-004.png"/> | <img width="32px" height="64px" src="images/shape-005.png"/> | <img width="32px" height="64px" src="images/shape-006.png"/> | <img width="32px" height="64px" src="images/shape-007.png"/> | <img width="32px" height="64px" src="images/shape-008.png"/> | <img width="32px" height="64px" src="images/shape-009.png"/> | <img width="32px" height="64px" src="images/shape-010.png"/> | <img width="32px" height="64px" src="images/shape-011.png"/> | <img width="32px" height="64px" src="images/shape-012.png"/> | <img width="32px" height="64px" src="images/shape-013.png"/> | <img width="32px" height="64px" src="images/shape-014.png"/> | <img width="32px" height="64px" src="images/shape-015.png"/> | <img width="32px" height="64px" src="images/shape-016.png"/> | <img width="32px" height="64px" src="images/shape-017.png"/> |
+
+<!-- Launchpad -->
+
+<h3 id="appendix-launchpad">Launchpad</h3>
+
+TODO
