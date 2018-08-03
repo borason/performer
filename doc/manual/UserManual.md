@@ -50,13 +50,15 @@
   - [Scales](#appendix-scales)
   - [Shapes](#appendix-shapes)
   - [Launchpad](#appendix-launchpad)
+  - [Calibration Procedure](#appendix-calibration-procedure)
+  - [Firmware Update](#appendix-firmware-update)
 <!-- toc-end -->
 
 <!-- Introduction -->
 
 <h2 id="introduction">Introduction</h2>
 
-**per|former** is an open source and open hardware eurorack sequencer module. It packs a lot of functionality into a small form factor and was designed both as a versatile sequencer in the studio as well as for live performance. Due to the amount of functionality in this module, it is highly recommended to study this document carfully to take full advantage of all the features.
+**per|former** is an open source and open hardware eurorack sequencer module. It packs a lot of functionality into a small form factor and was designed both as a versatile sequencer in the studio as well as for live performance. Due to the amount of functionality in this module, it is highly recommended to study this document carefully to take full advantage of all the features.
 
 The [Concepts](#concepts) chapter introduces the overall architecture and functionality of the sequencer. The [User Interface](#ui) chapter gives an overview of the user interface and introduces key concepts of how to use the sequencer. The [Pages](#pages) chapter goes into more detail in terms of functionality and user interface of the various modes and contexts in the sequencer and introduces common workflows.
 
@@ -65,7 +67,7 @@ The [Concepts](#concepts) chapter introduces the overall architecture and functi
 <h3 id="introduction-features">Features</h3>
 
 - 8 track sequencer
-- 16 patterns per project
+- 16 sequences per track
 - 64 steps per sequence
 - Multiple track and sequence modes
 - Note and modulation sequencing
@@ -121,9 +123,7 @@ The following shows a high level diagram of the data contained in a project:
 
 The project is split into two blocks, a global block of data and a block of data for each of the 8 tracks. Each track contains a block of settings and 16 sequences. Each sequence in turn contains a block of settings and its 64 steps.
 
-The 16 sequences of the 8 tracks are collectively handled as patterns.
-
-> Note: Calibration data is stored in the flash memory of the microcontroller and can be backed up and restored from the SD card. This allows for changing the SD card or run the sequencer without an SD card at all and still have it properly calibrated.
+> Note: Calibration data is stored in the flash memory of the micro controller and can be backed up and restored from the SD card. This allows for changing the SD card or run the sequencer without an SD card at all and still have it properly calibrated.
 
 <!-- Track -->
 
@@ -147,9 +147,9 @@ In the default configuration, each track controls one of the CV/gate output pair
 
 <h4>Track Linking</h4>
 
-In note or curve mode, a track generates a single CV signal, typically a pitch or modulation signal. To control a voice with multiple signals, for example a pitch and velocity signal, two tracks can be linked together. The first track is used to generate the pitch signal while the second track generates the velocity signal. To make both sequences run in lock-step, the second track can be linked to the first track, essentially doubling the playback behaviour of the first track.
+In note or curve mode, a track generates a single CV signal, typically a pitch or modulation signal. To control a voice with multiple signals, for example a pitch and velocity signal, two tracks can be linked together. The first track is used to generate the pitch signal while the second track generates the velocity signal. To make both sequences run in lock-step, the second track can be linked to the first track, essentially doubling the playback behavior of the first track.
 
-> Note: A track can only be linked to a preceeding track due to the internal architecture of the sequencer. This means that track 1 cannot use track linking, while track 2 can only be linked to track 1. Track 8 on the other hand can be linked to any of the tracks 1-7.
+> Note: A track can only be linked to a preceding track due to the internal architecture of the sequencer. This means that track 1 cannot use track linking, while track 2 can only be linked to track 1. Track 8 on the other hand can be linked to any of the tracks 1-7.
 
 Track modes, the physical routing to CV/gate outputs and track linking can be configured on the [Layout](#pages-layout) page.
 
@@ -157,7 +157,7 @@ Track modes, the physical routing to CV/gate outputs and track linking can be co
 
 <h3 id="concepts-note-track">Note Track</h3>
 
-In note mode, the default mode, a track uses step sequencing to output gate and CV signals. A sequence consists of a maximum 64 steps and there is a total of 16 sequences in the track corresponding to the 16 patterns.
+In note mode, the default mode, a track uses step sequencing to output gate and CV signals. A sequence consists of a maximum 64 steps and there is a total of 16 sequences in a track.
 
 TODO
 
@@ -179,7 +179,7 @@ In MIDI/CV mode, a track acts as a MIDI to CV converter, taking MIDI note data f
 
 <h3 id="concepts-pattern">Pattern</h3>
 
-There is a total of 16 patterns per project. Each pattern stores the sequences of all 8 tracks.
+A pattern refers to specific set of sequences, one of the 16 sequences for each of the 8 tracks.
 
 TODO
 
@@ -187,7 +187,7 @@ TODO
 
 <h3 id="concepts-snapshot">Snapshot</h3>
 
-In addition to the 16 patterns per project, there is an additional snapshot pattern which can temporarily be used to change sequences without affecting the original sequences. Snapshots come in handy during live performance to quickly allow changing sequences and then going back to commiting original state o.pattern. Snapshots are controlled from the [Pattern](#pages-pattern) page.
+In addition to the 16 patterns per project, there is an additional snapshot pattern which can temporarily be used to change sequences without affecting the original sequences. Snapshots come in handy during live performance to quickly allow changing sequences and then going back to committing original state of the pattern. Snapshots are controlled from the [Pattern](#pages-pattern) page.
 
 <!-- Song -->
 
@@ -203,7 +203,7 @@ A song consists of up to 16 slots, each holding a set of sequences to be played 
 
 In contrast to many other sequencers that directly operate on chromatic note values, the **per|former** sequencer is using the concept of voltage tables. Each note is stored as an index into a voltage table that do not necessarily have a specific musical meaning. While offering many of the more commonly used scales in form of presets, the sequencer also provides some scales beyond the typical western chromatic variants, for example a 24 tone equal temperament scale. The additional 4 user scales allow for even more experimentation as well as setting up voltage tables to specifically address discrete values of a CV input on another module. This allows for example to select a specific sample slot, choose a wavetable or similar applications.
 
-A global default scale and root note can be specified on the [Project](#pages-project) page which can be overriden for individual sequences in the [Sequence](#pages-sequence) page. The user scales can be edited on the [User Scale](#pages-user-scale) page. See [Scales](#appendix-scales) appendix for a list of all predefined scales.
+A global default scale and root note can be specified on the [Project](#pages-project) page which can be overridden for individual sequences in the [Sequence](#pages-sequence) page. The user scales can be edited on the [User Scale](#pages-user-scale) page. See [Scales](#appendix-scales) appendix for a list of all predefined scales.
 
 <!-- Clock -->
 
@@ -274,7 +274,7 @@ There are 5 function buttons below the display: `F1`, `F2`, `F3`, `F4` and `F5`.
 
 There are 8 global buttons: `PLAY`, `TEMPO`, `PATT`, `PERF`, `PREV`, `NEXT`, `SHIFT` and `PAGE`.
 
-| Button | Behaviour |
+| Button | Function |
 | :--- | :--- |
 | `PLAY` | Starts/stops the master clock. |
 | `SHIFT` + `PLAY` | Pause/continue or restart master clock depending on the configured _Shift Mode_ on the [Clock](#pages-clock) page. |
@@ -387,7 +387,7 @@ To allow moving and copying data, a copy/paste system is implemented that allows
 
 Copy/paste actions are provided in the context menu when holding `SHIFT` + `PAGE`.
 
-> Note: Due to memory limitations, the clipboard can only hold one object at a time and shares memory across all different types. This means that copying an object always results in the previously copied object beeing cleared from the clipboard.
+> Note: Due to memory limitations, the clipboard can only hold one object at a time and shares memory across all different types. This means that copying an object always results in the previously copied object being cleared from the clipboard.
 
 <!-- Pages -->
 
@@ -420,7 +420,7 @@ The following parameters are available:
 
 <h4>Actions</h4>
 
-Use `SHIFT` + `PAGE` to open the context menu for accessing the following actions:
+Use `SHIFT` + `PAGE` to open the context menu to access the following actions:
 
 | Button | Action | Description |
 | :--- | :--- | :--- |
@@ -444,13 +444,13 @@ The first tab is used to configure the track mode of each track.
 
 ![](images/page-layout-mode.png)
 
-Changing the track mode results in all data of the given track being deleted. Because of this, when setting a new track mode, it only takes effect after commiting it using `F5`.
+Changing the track mode results in all data of the given track being deleted. Because of this, when setting a new track mode, it only takes effect after committing it using `F5`.
 
 ![](images/page-layout-mode-confirm.png)
 
 <h4>Link Track</h4>
 
-The second tab is used to setup track linking. Each of the 8 tracks can be linked to any of the preceeding tracks, taking over its playback behaviour.
+The second tab is used to setup track linking. Each of the 8 tracks can be linked to any of the preceding tracks, taking over its playback behavior.
 
 ![](images/page-layout-link.png)
 
@@ -480,7 +480,7 @@ The _Track_ page is entered using `PAGE` + `TRACK`.
 
 This page allows to change track wide settings. Note that the parameters depend on the configured _Track Mode_ of the selected track.
 
-Use `SHIFT` + `PAGE` to open the context menu for accessing the following actions:
+Use `SHIFT` + `PAGE` to open the context menu to access the following actions:
 
 | Button | Action | Description |
 | :--- | :--- | :--- |
@@ -605,9 +605,9 @@ Note that when creating pattern chains, the song mode is automatically started.
 
 <h4>Playback</h4>
 
-Song playback can be started and stopped independently of the sequencer actually running. This allows to engange song playback while the sequencer is already running, or stop song playback without stopping the sequencer. Song playback simply changes the playing patterns automatically and in sync.
+Song playback can be started and stopped independently of the sequencer actually running. This allows to engage song playback while the sequencer is already running, or stop song playback without stopping the sequencer. Song playback simply changes the playing patterns automatically and in sync.
 
-Press `F5` to start playback of the song from the currently selected slot. This will also start the sequencer if it is not already running. Playback will be immediate, meaning that the currently playing pattern is switched instantaneousy. To start playback on the next _Sync Measure_, use `SHIFT` + `F5` to start playback. A progress bar will appear at the top of the page, indicating the time until playback is started. To stop playback, simply press `F5` again.
+Press `F5` to start playback of the song from the currently selected slot. This will also start the sequencer if it is not already running. Playback will be immediate, meaning that the currently playing pattern is switched instantaneously. To start playback on the next _Sync Measure_, use `SHIFT` + `F5` to start playback. A progress bar will appear at the top of the page, indicating the time until playback is started. To stop playback, simply press `F5` again.
 
 During playback, the current slot being played is indicated by a small cursor below the slot list with a small progress bar indicating the progress through the slot. In addition, the currently playing pattern in the header list is highlighted.
 
@@ -639,19 +639,53 @@ To sync the master clock by ear to some other source, for example a turntable, t
 
 <h3 id="pages-pattern">Pattern</h3>
 
-**TODO:** insert image
-
 The _Pattern_ page can either be permanently entered using `PAGE` + `PATT` or just temporarily while holding `PATT`.
 
-On this page you can handle pattern changes as well as selecting the currently edited pattern.
+![](images/page-pattern.png)
+
+On this page you can handle pattern changes as well as selecting the currently edited pattern. Pattern changes can be scheduled by using _latching_ or _syncing_. In addition, this page gives access to the snapshot system and allows for copy/pasting patterns.
+
+<h4>Editing Pattern</h4>
+
+To change the pattern for editing which is indicated in the header as `E[1-16]` simple rotate the `ENCODER` or press `<` and `>`. Alternatively you can use `SHIFT` + `STEP[1-16]` to select the editing pattern.
+
+> Note: The editing pattern indicated in the header is highlighted if the selected pattern for editing is the same as the currently playing pattern.
+
+<h4>Pattern Changes</h4>
+
+To change to any of the 16 patterns press `STEP[1-16]`. This will switch all tracks to play the selected pattern immediately. To only switch patterns for certain tracks, hold any combination of `TRACK[1-8]` and then select the pattern using `STEP[1-16]`.
+
+<h4>Latching Pattern Changes</h4>
+
+To perform multiple pattern changes at the same time, hold `F1` while performing pattern changes. All changes are scheduled and executed together when `F1` is let go. While `F1` is hold and some changes have been scheduled, you can press `F5` to cancel them.
+
+> Note: When using the temporary mode of the performer page by holding `PATT`, you can let go of `PATT` while holding `F1` and keep the page open.
+
+<h4>Synced Pattern Changes</h4>
+
+To execute pattern changes on a musical beat, hold `F2` while performing pattern changes. A progress bar will appear at the top of the page, indicating the time until the changes are executed. Again, while holding `F2` you can press `F5` to cancel any scheduled changes.
+
+> Note: When using the temporary mode of the performer page by holding `PATT`, you can let go of `PATT` while holding `F2` and keep the page open.
+
+> Note: Synced actions are triggered on the beginning of a musical measure, configured on the [Project](#pages-project) page using the _Sync Measure_ parameter.
+
+<h4>Snapshots</h4>
+
+Snapshots are a useful tool to quickly make a temporary copy of a pattern and later take over the changes or throw them away.
+
+Press `F3` create a snapshot of the patterns currently being played.
+
+TODO
+
+<h4>Actions</h4>
 
 <!-- Performer -->
 
 <h3 id="pages-performer">Performer</h3>
 
-**TODO:** insert image
-
 The _Performer_ page can either be permanently entered using `PAGE` + `PERF` or just temporarily while holding `PERF`.
+
+![](images/page-performer.png)
 
 On this page you can handle mutes/solos as well as fills. Similar as with pattern changes you can also schedule mute, unmute or solo actions either by using _latching_ or _syncing_.
 
@@ -663,11 +697,15 @@ Press `TRACK[1-8]` to mute and unmute tracks or `STEP[1-8]` to solo a track. Pre
 
 <h4>Latching Mutes/Solos</h4>
 
-To perform multiple actions at the same time, hold `F1` while executing mute, unmute or solo actions. All actions are scheduled and executed at the same time when `F1` is let go. While `F1` is hold and some actions have been scheduled, you can press `F5` to cancel them.
+To perform multiple actions at the same time, hold `F1` while executing mute, unmute or solo actions. All actions are scheduled and executed together when `F1` is let go. While `F1` is hold and some actions have been scheduled, you can press `F5` to cancel them.
+
+> Note: When using the temporary mode of the performer page by holding `PERF`, you can let go of `PERF` while holding `F1` and keep the page open.
 
 <h4>Synced Mutes/Solos</h4>
 
 To execute actions on a musical beat, hold `F2` while executing mute, unmute or solo actions. A progress bar will appear at the top of the page, indicating the time until the actions are executed. Again, while holding `F2` you can press `F5` to cancel any scheduled action.
+
+> Note: When using the temporary mode of the performer page by holding `PERF`, you can let go of `PERF` while holding `F2` and keep the page open.
 
 > Note: Synced actions are triggered on the beginning of a musical measure, configured on the [Project](#pages-project) page using the _Sync Measure_ parameter.
 
@@ -719,7 +757,7 @@ When in _Voltage_ mode, each item can be assigned a voltage between -5V and +5V 
 
 > Note: The items defined in the user scale represent a single octave of the scale, which is equal to 12 semitones (1V) in _Chromatic_ mode and the interval between the first and last item in _Voltage_ mode. The other octaves are automatically inferred by repetition.
 
-Use `SHIFT` + `PAGE` to open the context menu for accessing the following actions:
+Use `SHIFT` + `PAGE` to open the context menu to access the following actions:
 
 | Button | Action | Description |
 | :--- | :--- | :--- |
@@ -787,7 +825,50 @@ This page is used to setup the clock system of the sequencer using the following
 
 <h3 id="pages-settings">Settings</h2>
 
-TODO
+The _Settings_ page is entered using `PAGE` + `SETTINGS` and needs confirmation to prevent accidental entering.
+
+![](images/page-settings-confirm.png)
+
+<h4>Calibration</h4>
+
+Press `F1` to show the calibration tab.
+
+![](images/page-settings-cal.png)
+
+On this tab you can calibrate the 8 physical CV outputs of the sequencer to millivolts accuracy, given that you have access to a volt meter with high accuracy. Proper calibration is important to get accurate pitch signals (1V/Oct) to control the pitch of oscillators.
+
+Each channel is calibrated using a list of calibration entries for all voltages from -5V to +5V at 1V increments. Each entry stores the decimal value that is sent to the digital-to-analog converter for the given voltage. By default, entries are set to _auto_ which automatically determines the best guess for the calibration value. This value is either determined by a reference table or by interpolating other manually set calibration entries.
+
+Press `TRACK[1-8]` to select the channel for calibration. The voltage present at the CV outputs directly depends on the entry selected in the list. This allows to scroll through the list and adjust the calibration values until the CV output generates the correct voltage. To edit a calibration entry, simply press the `ENCODER`. Rotate the encoder to set the calibration value or press `F1` to revert back to the _auto_ value.
+
+![](images/page-settings-cal-edit.png)
+
+See [Calibration Procedure](#appendix-calibration-procedure) for more information on how to efficiently calibrate the CV outputs.
+
+Use `SHIFT` + `PAGE` to open the context menu to access the following actions:
+
+| Button | Action | Description |
+| :--- | :--- | :--- |
+| `F1` | Init | Initialize the settings to the default state. |
+| `F2` | Save | Save the settings to flash memory. |
+| `F3` | Backup | Backup the settings to the SD card. |
+| `F4` | Restore | Restore the settings from the SD card. |
+
+<h4>Utilities</h4>
+
+Press `F4` to show the utilities tab.
+
+![](images/page-settings-utils.png)
+
+Currently there is only one utility to allow formatting the SD card.
+
+<h4>Update</h4>
+
+Press `F5` to show the update tab.
+
+![](images/page-settings-update.png)
+
+This tab shows the current version of the firmware and allows to reset to the bootloader to easily initiate the firmware update procedure. See [Firmware Update](#appendix-firmware-update) for more information.
 
 <!-- Appendix -->
 
@@ -843,7 +924,7 @@ In backward mode, the sequence is played from the last to the first step and the
 
 <h4>Pendulum</h4>
 
-In pendulum mode, the sequence is alternatly played in forward and backward mode. Each iteration is exactly `2 * N` steps:
+In pendulum mode, the sequence is alternately played in forward and backward mode. Each iteration is exactly `2 * N` steps:
 
 `1 2 3 4 5 6 7 8 8 7 6 5 4 3 2 1 | 1 ...`
 
@@ -993,3 +1074,41 @@ In random walk mode, the sequence starts with a random step and each time the se
 <h3 id="appendix-launchpad">Launchpad</h3>
 
 TODO
+
+<h3 id="appendix-calibration-procedure">Calibration Procedure</h3>
+
+The following method allows you to quickly calibrate the 8 CV outputs of the sequencer to millivolts accuracy. In order to achieve good results you have to use a volt meter capable of measuring within millivolts accuracy.
+
+**The calibration will only be as good as the volt meter to measure the voltages!**
+
+Enter the calibration page using `PAGE` + `SETTINGS`.
+
+![](images/page-settings-cal.png)
+
+For each of the 8 channels, perform the following steps:
+
+- Select the channel by pressing `TRACK[1-8]`.
+- Connect the volt meter to the given CV output.
+- Select the -5.0V entry and adjust the calibration value such that the volt meter measures as close to -5.000V as possible.
+- Repeat the the previous step for the +5.0V entry then for the +0.0V entry.
+- At this point, calibration should be good enough with all other entries set to _auto_.
+- Check each entry in-between the calibrated ones and adjust them if the measured voltage deviates too much from the expected value. In general it is a good idea to do this recursively by always selecting the voltage in the middle of two calibrated entries. For example, with +0.0V and +5.0V calibrated, continue with either +2.0V or +3.0V.
+
+With all channels calibrated you should save the data to flash memory by holding `SHIFT` + `PAGE` and pressing `F2`. You can also save the calibration data as a backup to the SD card by holding `SHIFT` + `PAGE` and pressing `F3`.
+
+<h3 id="appendix-firmware-update">Firmware Update</h3>
+
+Use the following steps to upgrade the sequencer:
+
+- Download the latest `UPDATE.DAT` file from https://github.com/westlicht/eurorack-sequencer/releases.
+- Copy the `UPDATE.DAT` file to the root directory of the SD card.
+- Insert the SD card into the sequencer's SD card slot.
+
+The update procedure is performed by the bootloader on the sequencer. There are two possible ways to enter the bootloader:
+
+1. Power up the sequencer while pressing down the `ENCODER`.
+2. Enter the [Settings](#pages-settings) page and go to the update tab, then press and hold the `ENCODER` which will initiate a reset and jump to the bootloader.
+
+The bootloader will verify the integrity of the `UPDATE.DAT` file using an MD5 hash. Once verified, a confirmation is requested to actually initiate the update process. Simply rotate the `ENCODER` to change to _YES_ and press the `ENCODER` to start the update.
+
+After the firmware is written to the flash memory, it is verified again to ensure it was written properly. In case the verification fails, the firmware is erased from flash memory. At this point the sequencer will always enter the bootloader when powering up, allowing to load a different firmware.
