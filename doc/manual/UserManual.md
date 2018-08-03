@@ -703,11 +703,31 @@ The _Routing_ page is entered using `PAGE` + `ROUTING`.
 
 <h3 id="pages-user-scale">User Scale</h3>
 
-The _User Scale_ page is entered using `PAGE` + `USER SCALE`. Here you can edit the 4 user scales stored in the project.
-
-TODO
+The _User Scale_ page is entered using `PAGE` + `USER SCALE`.
 
 ![](images/page-user-scale.png)
+
+On this page you can edit the 4 user scales stored in the project. Switch between the 4 scales using `F1`, `F2`, `F3` and `F4`.
+
+As with the preset scales, user scales can either be in _Chromatic_ or _Voltage_ mode. The former is used to create scales from the 12 semitones of the equal tempered chromatic scale. The latter can be used to make arbitrary scales.
+
+The number of items in the scale is set with the _Size_ parameter and can be up to 32 items.
+
+When in _Chromatic_ mode, each item can be assigned a semitone: `1`, `1#`, `2`, `2#`, `3`, `4`, `4#`, `5`, `5#`, `6`, `6#` or `7`.
+
+When in _Voltage_ mode, each item can be assigned a voltage between -5V and +5V with millivolts accuracy.
+
+> Note: The items defined in the user scale represent a single octave of the scale, which is equal to 12 semitones (1V) in _Chromatic_ mode and the interval between the first and last item in _Voltage_ mode. The other octaves are automatically inferred by repetition.
+
+Use `SHIFT` + `PAGE` to open the context menu for accessing the following actions:
+
+| Button | Action | Description |
+| :--- | :--- | :--- |
+| `F1` | Init | Initialize the selected user scale to the default state. |
+| `F2` | Copy | Copy the selected user scale to the clipboard. |
+| `F3` | Paste | Paste the clipboard to the selected user scale. |
+| `F4` | Load | Load a user scale from the SD card into the selected user scale. |
+| `F5` | Save | Save the selected user scale to the SD card. |
 
 <!-- Monitor -->
 
