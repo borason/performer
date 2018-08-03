@@ -1,6 +1,6 @@
 <h1>User Manual</h1>
 
-<img src="../sequencer.jpg"/>
+![](../sequencer.jpg)
 
 <!-- TOC -->
 
@@ -149,7 +149,7 @@ In the default configuration, each track controls one of the CV/gate output pair
 
 In note or curve mode, a track generates a single CV signal, typically a pitch or modulation signal. To control a voice with multiple signals, for example a pitch and velocity signal, two tracks can be linked together. The first track is used to generate the pitch signal while the second track generates the velocity signal. To make both sequences run in lock-step, the second track can be linked to the first track, essentially doubling the playback behaviour of the first track.
 
-> Note: A track can only be linked to preceeding track due to the internal architecture of the sequencer. This means that track 1 cannot use track linking, while track 2 can only be linked to track 1. Track 8 on the other hand can be linked to any of the tracks 1-7.
+> Note: A track can only be linked to a preceeding track due to the internal architecture of the sequencer. This means that track 1 cannot use track linking, while track 2 can only be linked to track 1. Track 8 on the other hand can be linked to any of the tracks 1-7.
 
 Track modes, the physical routing to CV/gate outputs and track linking can be configured on the [Layout](#pages-layout) page.
 
@@ -187,7 +187,7 @@ TODO
 
 <h3 id="concepts-snapshot">Snapshot</h3>
 
-In addition to the 16 patterns per project, there is an additional snapshot pattern which can temporarily be used to change sequences without affecting the original sequences. Snapshots come in handy during live performance to quickly allow changing sequences and then going back to the original state or commiting the changes either to the original sequences or to a new pattern. Snapshots are controlled from the [Pattern](#pages-pattern) page.
+In addition to the 16 patterns per project, there is an additional snapshot pattern which can temporarily be used to change sequences without affecting the original sequences. Snapshots come in handy during live performance to quickly allow changing sequences and then going back to commiting original state o.pattern. Snapshots are controlled from the [Pattern](#pages-pattern) page.
 
 <!-- Song -->
 
@@ -338,7 +338,7 @@ Each page is divided into three sections.
 
 <h4>Header</h4>
 
-<img src="images/section-header.png"/>
+![](images/section-header.png)
 
 The _header_ is used to display the global state of the sequencer as well as information about the active page and context.
 
@@ -357,11 +357,11 @@ The currently active page is shown in the top-right corner and optionally a sub-
 
 The _body_ is used to display the main content for the active page.
 
-<img src="images/section-main.png"/>
+![](images/section-main.png)
 
 <h4>Footer</h4>
 
-<img src="images/section-footer.png"/>
+![](images/section-footer.png)
 
 The _footer_ is used to display the labels of the function keys for the current page. On pages that provide a context menu, the labels dynamically change to the context menu actions when `SHIFT` + `PAGE` is hold.
 
@@ -385,6 +385,8 @@ To allow moving and copying data, a copy/paste system is implemented that allows
 - Pattern (see [Pattern](#pages-pattern) page)
 - User Scale (see [User Scale](#pages-user-scale) page)
 
+Copy/paste actions are provided in the context menu when holding `SHIFT` + `PAGE`.
+
 > Note: Due to memory limitations, the clipboard can only hold one object at a time and shares memory across all different types. This means that copying an object always results in the previously copied object beeing cleared from the clipboard.
 
 <!-- Pages -->
@@ -397,7 +399,7 @@ To allow moving and copying data, a copy/paste system is implemented that allows
 
 The _Project_ page is entered using `PAGE` + `PROJECT`.
 
-<img src="images/page-project.png"/>
+![](images/page-project.png)
 
 This page allows to change project wide parameters as well loading and saving projects from/to the SD card.
 
@@ -434,23 +436,39 @@ Use `SHIFT` + `PAGE` to open the context menu for accessing the following action
 
 <h3 id="pages-layout">Layout</h3>
 
-The _Layout_ page is entered using `PAGE` + `LAYOUT`.
+The _Layout_ page is entered using `PAGE` + `LAYOUT`. This page has 4 tabs accessed through `F1`, `F2`, `F3` and `F4`.
 
 <h4>Track Mode</h4>
 
-<img src="images/page-layout-mode.png"/>
+The first tab is used to configure the track mode of each track.
+
+![](images/page-layout-mode.png)
+
+Changing the track mode results in all data of the given track being deleted. Because of this, when setting a new track mode, it only takes effect after commiting it using `F5`.
+
+![](images/page-layout-mode-confirm.png)
 
 <h4>Link Track</h4>
 
-<img src="images/page-layout-link.png"/>
+The second tab is used to setup track linking. Each of the 8 tracks can be linked to any of the preceeding tracks, taking over its playback behaviour.
+
+![](images/page-layout-link.png)
 
 <h4>Gate Output</h4>
 
-<img src="images/page-layout-gate.png"/>
+The third tab is used to setup the mapping of virtual track gate outputs to the physical gate outputs. In default state, each track is linked to the corresponding gate output with the same number.
+
+![](images/page-layout-gate.png)
 
 <h4>CV Output</h4>
 
-<img src="images/page-layout-cv.png"/>
+The fourth tab is used to setup the mapping of virtual track CV outputs to the physical CV outputs. In default state, each track is linked to the corresponding CV output with the same number.
+
+![](images/page-layout-cv.png)
+
+If using a MIDI/CV track, it can be useful to map multiple virtual outputs of the track to physical outputs to allow for polyphonic signals or add modulation signals such as velocity or aftertouch. The following shows a configuration with two note polyphony and pitch/velocity signals.
+
+
 
 <!-- Track -->
 
@@ -458,7 +476,7 @@ The _Layout_ page is entered using `PAGE` + `LAYOUT`.
 
 The _Track_ page is entered using `PAGE` + `TRACK`.
 
-<img src="images/page-track.png"/>
+![](images/page-track.png)
 
 This page allows to change track wide settings. Note that the parameters depend on the configured _Track Mode_ of the selected track.
 
@@ -524,7 +542,7 @@ The following parameters are available:
 
 The _Sequence_ page is entered using `PAGE` + `SEQ`.
 
-<img src="images/page-sequence.png"/>
+![](images/page-sequence.png)
 
 <h4>Note Track</h4>
 
@@ -551,7 +569,7 @@ The _Sequence Edit_ page is entered using `PAGE` + `SEQ EDIT`.
 
 TODO
 
-<img src="images/page-sequence-edit.png"/>
+![](images/page-sequence-edit.png)
 
 <!-- Song -->
 
@@ -561,7 +579,7 @@ The _Song_ page is entered using `PAGE` + `SONG`.
 
 TODO
 
-<img src="images/page-song.png"/>
+![](images/page-song.png)
 
 <!-- Tempo -->
 
@@ -627,8 +645,7 @@ Hold `STEP[9-16]` to enable fills on individual tracks. Hold `F4` to fill all tr
 
 The _Routing_ page is entered using `PAGE` + `ROUTING`.
 
-<img src="images/page-routing.png"/>
-<img src="images/page-routing-route.png"/>
+![](images/page-routing.png)
 
 | Parameter  | Range | Description |
 | :--- | :--- | :--- |
@@ -652,36 +669,37 @@ The _User Scale_ page is entered using `PAGE` + `USER SCALE`. Here you can edit 
 
 TODO
 
-<img src="images/page-user-scale.png"/>
+![](images/page-user-scale.png)
 
 <!-- Monitor -->
 
 <h3 id="pages-monitor">Monitor</h3>
 
-The _Monitor_ page is entered using `PAGE` + `MONITOR`.
+The _Monitor_ page is entered using `PAGE` + `MONITOR`. This page has 4 tabs accessed using `F1`, `F2`, `F3` and `F4`.
 
 <h4>CV Inputs</h4>
 
-The first tab (`F1`) shows the current voltages of the CV inputs.
+The first tab shows the current voltages of the CV inputs.
 
-<img src="images/page-monitor-cv-in.png"/>
+![](images/page-monitor-cv-in.png)
 
-<h4>CV Outputs</h4The second tab (`F2`) shows the current voltages of the CV outputs.
+<h4>CV Ouputs</h4>
 
-<img src="images/page-monitor-cv-out.png"/>
+The second tab shows the current voltages of the CV outputs.
 
-<h4>CC</Number | 0 - 127 | |
-| Note | C-1 - G9 | |>
+![](images/page-monitor-cv-out.png)
 
-The third tab (`F3`) shows incoming MIDI messages.
+<h4>MIDI</h4>
 
-<img src="images/page-monitor-midi.png"/>
+The third tab shows incoming MIDI messages.
+
+![](images/page-monitor-midi.png)
 
 <h4>Stats</h4>
 
-The fourth tab (`F4`) shows some general stats of the sequencer such as the total uptime and overflows of the MIDI message queues.
+The fourth tab shows general stats of the sequencer such as the total uptime and overflows of the MIDI message queues.
 
-<img src="images/page-monitor-stats.png"/>
+![](images/page-monitor-stats.png)
 
 <!-- Clock -->
 
@@ -689,7 +707,7 @@ The fourth tab (`F4`) shows some general stats of the sequencer such as the tota
 
 The _Clock_ page is entered using `PAGE` + `CLOCK`.
 
-<img src="images/page-clock.png"/>
+![](images/page-clock.png)
 
 This page is used to setup the clock system of the sequencer using the following parameters:
 
