@@ -38,6 +38,7 @@ def process_images():
         "page-settings-cal.png",
         "page-settings-update.png",
         "page-song.png",
+        "page-song-chain-example.png",
         "page-track.png",
         "page-user-scale.png",
     ]

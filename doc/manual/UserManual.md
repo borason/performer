@@ -468,7 +468,7 @@ The fourth tab is used to setup the mapping of virtual track CV outputs to the p
 
 If using a MIDI/CV track, it can be useful to map multiple virtual outputs of the track to physical outputs to allow for polyphonic signals or add modulation signals such as velocity or aftertouch. The following shows a configuration with two note polyphony and pitch/velocity signals.
 
-
+![](images/page-layout-cv-example.png)
 
 <!-- Track -->
 
@@ -577,23 +577,53 @@ TODO
 
 The _Song_ page is entered using `PAGE` + `SONG`.
 
-TODO
-
 ![](images/page-song.png)
+
+A song consists of up to 16 slots, each referencing a set of 8 patterns to be played on the 8 tracks. Each slot is played for the duration set by _Sync Measure_ on the [Project](#pages-project) page and can be repeated up to 8 times.
+
+<h4>Pattern Chaining</h4>
+
+A quick way to create songs on the fly is pattern chaining. This mode is specifically made for live performance to quickly create more interesting structures by chaining multiple patterns together.
+
+To create a pattern chain, hold `F2` and press `STEP[1-16]` to select the pattern to be played for the newly created slot. If the same pattern is added multiple times by pressing `STEP[1-16]` again, the repeat count of the last added slot is incremented. For example, holding `F2` and pressing the sequence `STEP1`, `STEP1`, `STEP1`, `STEP2`, `STEP1`, `STEP1`, `STEP1`, `STEP3` will create the following slot list:
+
+![](images/page-song-chain-example.png)
+
+Note that when creating pattern chains, the song mode is automatically started.
+
+<h4>Editing</h4>
+
+- Rotate the `ENCODER` or use `<` and `>` to select any of the assigned slots indicated with the small cursor above the slots.
+- Press `F1` to clear the slot list.
+- Press `F3` to add a slot at the end of the list.
+- Press `SHIFT` + `F3` to insert a slot at the current cursor position.
+- Press `F4` to remove the selected slot.
+- Hold `SHIFT` and rotate the `ENCODER` or use `<` and `>` to move the selected slot forward and backward in the slot list.
+- Press `STEP[1-16]` to assign a pattern to all tracks of the selected slot.
+- Hold any combination of `TRACK[1-8]` and press `STEP[1-16]` to assign a pattern to a group of tracks of the selected slot.
+- Press and rotate the `ENCODER` to adjust the number of repeats on the selected slot.
+
+<h4>Playback</h4>
+
+Song playback can be started and stopped independently of the sequencer actually running. This allows to engange song playback while the sequencer is already running, or stop song playback without stopping the sequencer. Song playback simply changes the playing patterns automatically and in sync.
+
+Press `F5` to start playback of the song from the currently selected slot. This will also start the sequencer if it is not already running. Playback will be immediate, meaning that the currently playing pattern is switched instantaneousy. To start playback on the next _Sync Measure_, use `SHIFT` + `F5` to start playback. A progress bar will appear at the top of the page, indicating the time until playback is started. To stop playback, simply press `F5` again.
+
+During playback, the current slot being played is indicated by a small cursor below the slot list with a small progress bar indicating the progress through the slot. In addition, the currently playing pattern in the header list is highlighted.
 
 <!-- Tempo -->
 
 <h3 id="pages-tempo">Tempo</h3>
 
-The _Tempo_ page is temporarily shown while holding the `TEMPO`. On this page the tempo of the master clock is adjusted. Simply rotate the `ENCODER` to adjust the tempo. Hold and rotate the `ENCODER` to adjust the tempo in smaller steps. Hold `SHIFT` and rotate the `ENCODER` to adjust in larger steps.
+The _Tempo_ page is temporarily shown while holding `TEMPO`. On this page the tempo of the master clock is adjusted. Simply rotate the `ENCODER` to adjust the tempo. Press and rotate the `ENCODER` to adjust the tempo in smaller steps. Hold `SHIFT` and rotate the `ENCODER` to adjust in larger steps.
 
 <h4>Tap Tempo</h4>
 
-In addition to manually adjusting the tempo, it can also be set using _tap tempo_ by pressing `PLAY` in a regular interval while holding `TEMPO`.
+In addition to manually adjusting the tempo, it can also be set using tap tempo by pressing `PLAY` in a regular interval while holding `TEMPO`.
 
 <h4>Nudging</h4>
 
-To sync the master clock _by ear_ to some other source, for example a turntable, tempo nudging is a useful feature. This allows the tempo to be temporarily increased/decreased within a 10% range. Nudging is activated by olding `TEMPO` and holding `NEXT` or `PREV` to increase/decrease the tempo.
+To sync the master clock by ear to some other source, for example a turntable, tempo nudging is a useful feature. This allows the tempo to be temporarily increased/decreased within a 10% range. Nudging is activated by olding `TEMPO` and holding `NEXT` or `PREV` to increase/decrease the tempo.
 
 > Note: The tempo is incrementally increased/decreased up to 10%, so one needs to hold both `TEMPO` and `NEXT` or `PREV` for a small amount of time to get an effect.
 
