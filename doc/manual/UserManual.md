@@ -44,6 +44,7 @@
   - [User Scale](#pages-user-scale)
   - [Monitor](#pages-monitor)
   - [Clock](#pages-clock)
+  - [System](#pages-system)
 - [Appendix](#appendix)
   - [Divisors](#appendix-divisors)
   - [Run Modes](#appendix-run-modes)
@@ -143,7 +144,7 @@ In note mode, the default mode, a track offers advanced step sequencing for prog
 
 <h4>Track Routing</h4>
 
-In the default configuration, each track controls one of the CV/gate output pairs of the sequencer to control a single voice. However, this configuration can be changed to allow for more flexible routing of the virtual track outputs to the physical CV/gate outputs. For example, a MIDI/CV track can feed more than one physical CV/gate output to allow polyphonic operation or output a velocity signal in addition to the pitch signal.
+In the default configuration, each track controls one of the CV/gate output pairs of the sequencer to control a single voice. However, this configuration can be changed to allow for more flexible routing of the virtual track outputs to the physical CV/gate outputs. For example, a MIDI/CV track can control more than one physical CV/gate output to allow polyphonic operation or output a velocity signal in addition to the pitch signal.
 
 <h4>Track Linking</h4>
 
@@ -231,7 +232,7 @@ TODO
 
 <h3 id="concepts-file-management">File Management</h3>
 
-The SD card can be used to store various resources such as projects, user scales and settings. Resources are stored into slots, with each type having a total of 128 slots available. The actual content on the SD card looks as follows:
+The SD card can be used to store various resources such as projects, user scales and system settings. Resources are stored into slots, with each type having a total of 128 slots available. The actual content on the SD card looks as follows:
 
 - `PROJECTS/`
   - `001.PRO`
@@ -243,7 +244,7 @@ The SD card can be used to store various resources such as projects, user scales
   - `...`
 - `SETTINGS.DAT`
 
-where `001.PRO` is the first project slot, `002.SCA` is the second user scale slot and `SETTINGS.DAT` is the backup of the global settings (also stored in on-chip flash memory).
+where `001.PRO` is the first project slot, `002.SCA` is the second user scale slot and `SETTINGS.DAT` is the backup of the system settings (also stored in on-chip flash memory).
 
 The reason for using a slot system rather than traditional filenames is in order to allow for a smooth user experience while preserving the limited resources on the system.
 
@@ -324,7 +325,7 @@ The active page is selected by holding the `PAGE` button and pressing the corres
 | `PAGE` + `ROUTING` (`TRACK8`) | [Routing](#pages-routing) |
 | `PAGE` + `USER SCALE` (`STEP1`) | [User Scale](#pages-user-scale) |
 | `PAGE` + `MONITOR` (`STEP7`) | [Monitor](#pages-monitor) |
-| `PAGE` + `SETTINGS` (`STEP8`) | [Settings](#pages-settings) |
+| `PAGE` + `SYSTEM` (`STEP8`) | [System](#pages-system) |
 
 There are 3 special pages which can be entered temporarily by just holding a single button, namely the [Tempo](#pages-tempo), [Pattern](#pages-pattern) and [Performer](#pages-performer) pages. These pages give access to performance related features which need to be quickly accessible.
 
@@ -428,7 +429,7 @@ Use `SHIFT` + `PAGE` to open the context menu to access the following actions:
 | `F2` | Load | Load a project from the SD card. |
 | `F3` | Save | Save the project to the SD card and automatically overwrite the previous slot. |
 | `F4` | Save As | Save the project to a new slot on the SD card. |
-| `F5` | Route | Create a new route for the currently selected parameter (only active if selected parameter is routable). |
+| `F5` | Route | Show existing or create a new route for the currently selected parameter (only active if selected parameter is routable). |
 
 > Note: Should you ever get bored sequencing, take a break and hit `PAGE` + `STEP16`.
 
@@ -487,7 +488,7 @@ Use `SHIFT` + `PAGE` to open the context menu to access the following actions:
 | `F1` | Init | Initialize the track and all its content to the default state. |
 | `F2` | Copy | Copy the selected track and all its content to the clipboard. |
 | `F3` | Paste | Paste the clipboard to the selected track. |
-| `F4` | Route | Create a new route for the currently selected parameter (only active if selected parameter is routable). |
+| `F4` | Route | Show existing or create a new route for the currently selected parameter (only active if selected parameter is routable). |
 
 <h4>Note Track</h4>
 
@@ -737,6 +738,8 @@ The _Routing_ page is entered using `PAGE` + `ROUTING`.
 | CC Number | 0 - 127 | The MIDI CC number to use as the source signal. Only available if MIDI Event is set to _CC Aboslute_ or _CC Relative_. |
 | Note | C-1 - G9 | The MIDI note value to use as the source signal. Only available if MIDI Event is set to _Note Momentary_, _Note Toggle_ or _Note Velocity_. |
 
+TODO
+
 <!-- User Scale -->
 
 <h3 id="pages-user-scale">User Scale</h3>
@@ -779,7 +782,7 @@ The first tab shows the current voltages of the CV inputs.
 
 ![](images/page-monitor-cv-in.png)
 
-<h4>CV Ouputs</h4>
+<h4>CV Outputs</h4>
 
 The second tab shows the current voltages of the CV outputs.
 
@@ -821,19 +824,21 @@ This page is used to setup the clock system of the sequencer using the following
 | USBMIDI RX | yes, no | Enable/disable receiving MIDI clock from USB MIDI. |
 | USBMIDI TX | yes, no | Enable/disable sending MIDI clock to USB MIDI. |
 
-<!-- Settings -->
+TODO
 
-<h3 id="pages-settings">Settings</h2>
+<!-- System -->
 
-The _Settings_ page is entered using `PAGE` + `SETTINGS` and needs confirmation to prevent accidental entering.
+<h3 id="pages-system">System</h3>
 
-![](images/page-settings-confirm.png)
+The _System_ page is entered using `PAGE` + `SYSTEM` and needs confirmation to prevent accidental entering.
+
+![](images/page-system-confirm.png)
 
 <h4>Calibration</h4>
 
 Press `F1` to show the calibration tab.
 
-![](images/page-settings-cal.png)
+![](images/page-system-cal.png)
 
 On this tab you can calibrate the 8 physical CV outputs of the sequencer to millivolts accuracy, given that you have access to a volt meter with high accuracy. Proper calibration is important to get accurate pitch signals (1V/Oct) to control the pitch of oscillators.
 
@@ -841,7 +846,7 @@ Each channel is calibrated using a list of calibration entries for all voltages 
 
 Press `TRACK[1-8]` to select the channel for calibration. The voltage present at the CV outputs directly depends on the entry selected in the list. This allows to scroll through the list and adjust the calibration values until the CV output generates the correct voltage. To edit a calibration entry, simply press the `ENCODER`. Rotate the encoder to set the calibration value or press `F1` to revert back to the _auto_ value.
 
-![](images/page-settings-cal-edit.png)
+![](images/page-system-cal-edit.png)
 
 See [Calibration Procedure](#appendix-calibration-procedure) for more information on how to efficiently calibrate the CV outputs.
 
@@ -858,7 +863,7 @@ Use `SHIFT` + `PAGE` to open the context menu to access the following actions:
 
 Press `F4` to show the utilities tab.
 
-![](images/page-settings-utils.png)
+![](images/page-system-utils.png)
 
 Currently there is only one utility to allow formatting the SD card.
 
@@ -866,7 +871,7 @@ Currently there is only one utility to allow formatting the SD card.
 
 Press `F5` to show the update tab.
 
-![](images/page-settings-update.png)
+![](images/page-system-update.png)
 
 This tab shows the current version of the firmware and allows to reset to the bootloader to easily initiate the firmware update procedure. See [Firmware Update](#appendix-firmware-update) for more information.
 
@@ -1081,9 +1086,7 @@ The following method allows you to quickly calibrate the 8 CV outputs of the seq
 
 **The calibration will only be as good as the volt meter to measure the voltages!**
 
-Enter the calibration page using `PAGE` + `SETTINGS`.
-
-![](images/page-settings-cal.png)
+Enter the [System](#pages-system) page using `PAGE` + `SYSTEM`.
 
 For each of the 8 channels, perform the following steps:
 
@@ -1107,7 +1110,7 @@ Use the following steps to upgrade the sequencer:
 The update procedure is performed by the bootloader on the sequencer. There are two possible ways to enter the bootloader:
 
 1. Power up the sequencer while pressing down the `ENCODER`.
-2. Enter the [Settings](#pages-settings) page and go to the update tab, then press and hold the `ENCODER` which will initiate a reset and jump to the bootloader.
+2. Enter the [System](#pages-system) page and go to the update tab, then press and hold the `ENCODER` which will initiate a reset and jump to the bootloader.
 
 The bootloader will verify the integrity of the `UPDATE.DAT` file using an MD5 hash. Once verified, a confirmation is requested to actually initiate the update process. Simply rotate the `ENCODER` to change to _YES_ and press the `ENCODER` to start the update.
 
