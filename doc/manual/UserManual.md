@@ -16,6 +16,7 @@
   - [Note Track](#concepts-note-track)
   - [Curve Track](#concepts-curve-track)
   - [MIDI/CV Track](#concepts-midi-cv-track)
+  - [Step Sequence](#concept-step-sequence)
   - [Pattern](#concepts-pattern)
   - [Snapshot](#concepts-snapshot)
   - [Song](#concepts-song)
@@ -36,6 +37,8 @@
   - [Track](#pages-track)
   - [Sequence](#pages-sequence)
   - [Sequence Edit](#pages-sequence-edit)
+  - [Sequence Edit (Note)](#pages-sequence-edit-note)
+  - [Sequence Edit (Curve)](#pages-sequence-edit-curve)
   - [Song](#pages-song)
   - [Tempo](#pages-tempo)
   - [Pattern](#pages-pattern)
@@ -158,7 +161,11 @@ Track modes, the physical routing to CV/gate outputs and track linking can be co
 
 <h3 id="concepts-note-track">Note Track</h3>
 
-In note mode, the default mode, a track uses step sequencing to output gate and CV signals. A sequence consists of a maximum 64 steps and there is a total of 16 sequences in a track.
+By default, all tracks are configured as note tracks. In this mode, the track uses step sequencing to generate gate and CV signals. A sequence consists of a maximum 64 steps and there is a total of 16 patterns per track. Each step is defined through a number of properties, also called layers, to control the generated gate and CV signals.
+
+The generated gate sequence is controlled by the _Gate_ layer, which simply activates/deactivates gates for individual steps. To introduce some random variation, the _Gate Probability_ layer is used to control how often an active gate is actually generated at the output. The _Length_ layer controls the duration of the gate signal and allows to tie notes together if set to the maximum. Again, to introduce some random variation, the _Length Variation Range_ and _Length Variation Probability_ layers control a maximum random deviation of the gate length and the probability of actually randomizing the gate length. Finally, the _Retrigger_ layer allows each gate signal to be retriggered multiple times within the duration of the step, allowing for faster gates and ratcheting effects. Retriggering can also be randomized using the _Retrigger Probability_ layer.
+
+The generated CV sequence is controlled by the _Note_ layer, which basically defines the voltage to be output for each step. Each note is stored as an index to an entry in a [Scale](#concepts-scale), allowing the generated CV signals to be used both for controlling note pitch as well as other arbitrary modulation signals. Using the _Note Variation Range_ and _Note Variation Probability_ layers some random variation can be applied to the CV signal. Finally, the _Slide_ layer controls if the generate CV signal is changed immediately on the start of a gate or smoothly slides to the new voltage.
 
 TODO
 
@@ -175,6 +182,18 @@ TODO
 <h3 id="concepts-midi-cv-track">MIDI/CV Track</h3>
 
 In MIDI/CV mode, a track acts as a MIDI to CV converter, taking MIDI note data from either the MIDI or USBMIDI input and feeding it to the CV/gate outputs. This allows for playing voices live from a keyboard or use an external MIDI sequencer to control them. In addition this mode allows the module to act as a very flexible MIDI to CV converter.
+
+<!-- Step Sequence -->
+
+<h3 id="concept-step-sequence">Step Sequence</h3>
+
+<h4>Play Mode</h4>
+
+<h4>Run Mode</h4>
+
+
+
+TODO
 
 <!-- Pattern -->
 
@@ -571,6 +590,18 @@ The _Sequence Edit_ page is entered using `PAGE` + `SEQ EDIT`.
 TODO
 
 ![](images/page-sequence-edit.png)
+
+<!-- Sequence Edit (Note) -->
+
+<h3 id="pages-sequence-edit-note">Sequence Edit (Note)</h3>
+
+TODO
+
+<!-- Sequence Edit (Curve) -->
+
+<h3 id="pages-sequence-edit-curve">Sequence Edit (Curve)</h3>
+
+TODO
 
 <!-- Song -->
 
