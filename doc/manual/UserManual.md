@@ -16,7 +16,6 @@
   - [Note Track](#concepts-note-track)
   - [Curve Track](#concepts-curve-track)
   - [MIDI/CV Track](#concepts-midi-cv-track)
-  - [Step Sequence](#concept-step-sequence)
   - [Pattern](#concepts-pattern)
   - [Snapshot](#concepts-snapshot)
   - [Song](#concepts-song)
@@ -125,19 +124,19 @@ The following shows a high level diagram of the data contained in a project:
 └────────────────────────┘   └────────────────────────┘
 ```
 
-The project is split into two blocks, a global block of data and a block of data for each of the 8 tracks. Each track contains a block of settings and 16 sequences. Each sequence in turn contains a block of settings and its 64 steps.
+The project is split into two regions. The first region contains the project settings, layout, song data, play state and routing data. The second region contains data for each of the 8 tracks, which in turn contains the track settings and 16 sequences. Each sequence in turn contains the sequence settings and 64 steps.
 
-> Note: Calibration data is stored in the flash memory of the micro controller and can be backed up and restored from the SD card. This allows for changing the SD card or run the sequencer without an SD card at all and still have it properly calibrated.
+> Note: Calibration data is stored in the flash memory of the micro controller and can be backed up and restored from the SD card. This allows exchanging the SD card while running the sequencer or run the sequencer without an SD card at all and still have it properly calibrated.
 
 <!-- Track -->
 
 <h3 id="concepts-track">Track</h3>
 
-Each of the 8 available tracks is independent of every other track. This means that every sequence of a track can have a different time division, run mode, duration or scale among other things.
+Each of the 8 available tracks can run independent of every other track. This means that every sequence in a track can have a different time division, run mode, duration or scale among other properties.
 
 <h4>Track Mode</h4>
 
-Each track can be configured to a specific track mode. The following modes are available:
+Tracks can be configured to a specific track mode. The following modes are available:
 
 - Note
 - Curve
@@ -151,7 +150,7 @@ In the default configuration, each track controls one of the CV/gate output pair
 
 <h4>Track Linking</h4>
 
-In note or curve mode, a track generates a single CV signal, typically a pitch or modulation signal. To control a voice with multiple signals, for example a pitch and velocity signal, two tracks can be linked together. The first track is used to generate the pitch signal while the second track generates the velocity signal. To make both sequences run in lock-step, the second track can be linked to the first track, essentially doubling the playback behavior of the first track.
+In note or curve mode, a track generates a single CV signal, typically a pitch or modulation signal. To control a voice with multiple signals, for example a pitch and velocity signal, two tracks have to be used in combination. The first track is used to generate the pitch signal while the second track generates the velocity signal. Using two tracks allows to use different sequence lengths, time divison and other properties that affect playback. If that is not desired, the second track can be linked to the first track, essentially doubling the playback behavior.
 
 > Note: A track can only be linked to a preceding track due to the internal architecture of the sequencer. This means that track 1 cannot use track linking, while track 2 can only be linked to track 1. Track 8 on the other hand can be linked to any of the tracks 1-7.
 
@@ -161,21 +160,34 @@ Track modes, the physical routing to CV/gate outputs and track linking can be co
 
 <h3 id="concepts-note-track">Note Track</h3>
 
-By default, all tracks are configured as note tracks. In this mode, the track uses step sequencing to generate gate and CV signals. A sequence consists of a maximum 64 steps and there is a total of 16 patterns per track. Each step is defined through a number of properties, also called layers, to control the generated gate and CV signals.
+By default, all tracks are configured as note tracks. In this mode, the track uses step sequencing to generate gate and CV signals. A sequence consists of a maximum of 64 steps and there is a total of 16 sequences per track.
 
-The generated gate sequence is controlled by the _Gate_ layer, which simply activates/deactivates gates for individual steps. To introduce some random variation, the _Gate Probability_ layer is used to control how often an active gate is actually generated at the output. The _Length_ layer controls the duration of the gate signal and allows to tie notes together if set to the maximum. Again, to introduce some random variation, the _Length Variation Range_ and _Length Variation Probability_ layers control a maximum random deviation of the gate length and the probability of actually randomizing the gate length. Finally, the _Retrigger_ layer allows each gate signal to be retriggered multiple times within the duration of the step, allowing for faster gates and ratcheting effects. Retriggering can also be randomized using the _Retrigger Probability_ layer.
+Each step is defined through a number of properties, also called layers, to control the generated gate and CV signals.
 
-The generated CV sequence is controlled by the _Note_ layer, which basically defines the voltage to be output for each step. Each note is stored as an index to an entry in a [Scale](#concepts-scale), allowing the generated CV signals to be used both for controlling note pitch as well as other arbitrary modulation signals. Using the _Note Variation Range_ and _Note Variation Probability_ layers some random variation can be applied to the CV signal. Finally, the _Slide_ layer controls if the generate CV signal is changed immediately on the start of a gate or smoothly slides to the new voltage.
+The _Gate_ layer defines what steps of the sequence create a gate signal. To introduce some random variation, the _Gate Probability_ layer is used to control how often an active gate is actually generated at the output.
+The _Length_ layer controls the duration of the gate signal and allows to tie notes together if set to the maximum. Again, to introduce some random variation, the _Length Variation Range_ and _Length Variation Probability_ layers control a maximum random deviation of the gate length and the probability of actually randomizing the gate length.
 
-TODO
+The _Retrigger_ layer allows each gate signal to be retriggered multiple times within the duration of the step, allowing for faster gates and ratcheting effects. Retriggering can also be randomized using the _Retrigger Probability_ layer.
+
+The generated CV signal is controlled by the _Note_ layer, which basically defines the voltage to be output for each step. Each note is stored as an index to an entry in a [Scale](#concepts-scale), allowing the generated CV signals to be used both for controlling note pitch as well as other arbitrary modulation signals. Using the _Note Variation Range_ and _Note Variation Probability_ layers some random variation can be applied to the CV signal. The _Slide_ layer controls if the generate CV signal is changed immediately on the start of a gate or smoothly slides to the new voltage.
+
+The playback of the sequence is controlled by additional paramaters:
+
+- _Divisor_ controls the rate at which steps are played back
+- _Run Mode_ controls the order in which steps are played back
+- _First Step_ and _Last Step_ control what part of the sequence is played back
+
+Sequences are edited on the [Sequence Edit](#pages-sequence-edit) page and sequence parameters can be edited on the [Sequence](#pages-sequence) page.
 
 <!-- Curve Track -->
 
 <h3 id="concepts-curve-track">Curve Track</h3>
 
-In curve mode, a track also uses step sequencing with similar playback features to the note track. However, each step is defined as a curve shape.
+In curve mode, a track also uses step sequencing with similar playback features to the note track. However, in this track only a CV signal is output and each step is defined as a curve shape, making this mode useful to generate modulation signals.
 
-TODO
+The generated CV signal is controlled by the _Curve_ layer, which defines a curve shape to be output over the duration of one step. The _Minimum_ and _Maximum_ layers define the lower and upper voltage that is output for each step.
+
+Playback is controlled by the same set of parameters as for the note track.
 
 <!-- MIDI/CV Track -->
 
@@ -183,69 +195,69 @@ TODO
 
 In MIDI/CV mode, a track acts as a MIDI to CV converter, taking MIDI note data from either the MIDI or USBMIDI input and feeding it to the CV/gate outputs. This allows for playing voices live from a keyboard or use an external MIDI sequencer to control them. In addition this mode allows the module to act as a very flexible MIDI to CV converter.
 
-<!-- Step Sequence -->
-
-<h3 id="concept-step-sequence">Step Sequence</h3>
-
-<h4>Play Mode</h4>
-
-<h4>Run Mode</h4>
-
-
-
-TODO
-
 <!-- Pattern -->
 
 <h3 id="concepts-pattern">Pattern</h3>
 
-A pattern refers to specific set of sequences, one of the 16 sequences for each of the 8 tracks.
-
-TODO
+Each of the 8 tracks contains up to 16 sequences, also referred to as patterns. During playback, each track is playing one of its 16 patterns. When switching patterns, all tracks can be switched to the same pattern number or specific patterns can be selected for individual tracks. Patterns are controlled from the [Pattern](#pages-pattern) page.
 
 <!-- Snapshot -->
 
 <h3 id="concepts-snapshot">Snapshot</h3>
 
-In addition to the 16 patterns per project, there is an additional snapshot pattern which can temporarily be used to change sequences without affecting the original sequences. Snapshots come in handy during live performance to quickly allow changing sequences and then going back to committing original state of the pattern. Snapshots are controlled from the [Pattern](#pages-pattern) page.
+In addition to the 16 patterns per track, there is an additional snapshot pattern which can temporarily be used to edit sequences without affecting the original. When taking a snapshot, all patterns that are currently playing in each track are copied to the snapshot. Snapshots come in handy during live performance for quickly changing sequences on the fly. The changes can later be commited or reverted. Snapshots are controlled from the [Pattern](#pages-pattern) page.
 
 <!-- Song -->
 
 <h3 id="concepts-song">Song</h3>
 
-Songs are used to chain together a sequence of patterns. This can either be used to quickly chain together a few patterns during a live performance to get more variation or to create an entire arrangement of a song.
+Songs are used to chain together a sequence of patterns for each track. This can either be used to quickly chain together patterns during a live performance to get more variation or to create an entire arrangement of a song.
 
-A song consists of up to 16 slots, each holding a set of sequences to be played on the 8 tracks in addition to specifying how many times the slot is repeated when played back. Songs are controlled from the [Song](#pages-song) page.
+A song consists of up to 16 slots, each holding a set of patterns to be played on the 8 tracks in addition to specifying how many times the slot is repeated when played back. Songs are controlled from the [Song](#pages-song) page.
 
 <!-- Scale -->
 
 <h3 id="concepts-scale">Scale</h3>
 
-In contrast to many other sequencers that directly operate on chromatic note values, the **per|former** sequencer is using the concept of voltage tables. Each note is stored as an index into a voltage table that do not necessarily have a specific musical meaning. While offering many of the more commonly used scales in form of presets, the sequencer also provides some scales beyond the typical western chromatic variants, for example a 24 tone equal temperament scale. The additional 4 user scales allow for even more experimentation as well as setting up voltage tables to specifically address discrete values of a CV input on another module. This allows for example to select a specific sample slot, choose a wavetable or similar applications.
+In contrast to many other sequencers that directly operate on chromatic note values, the **per|former** sequencer is using the concept of voltage tables. Each note is stored as an index into a voltage table that does not necessarily have a specific musical meaning. While offering many of the more commonly used scales in form of presets, the sequencer also provides some scales beyond the typical western chromatic variants, for example a 24 tone equal temperament scale. The additional 4 user scales allow for even more experimentation as well as setting up voltage tables to specifically address discrete values of a CV input on another module. This allows for example to select a specific sample slot, choose a wavetable or similar applications.
 
-A global default scale and root note can be specified on the [Project](#pages-project) page which can be overridden for individual sequences in the [Sequence](#pages-sequence) page. The user scales can be edited on the [User Scale](#pages-user-scale) page. See [Scales](#appendix-scales) appendix for a list of all predefined scales.
+A global default scale and root note can be specified on the [Project](#pages-project) page which can be overridden for individual sequences in the [Sequence](#pages-sequence) page. The user scales can be edited on the [User Scale](#pages-user-scale) page. See [Scales](#appendix-scales) appendix for a list of all preset scales.
 
 <!-- Clock -->
 
 <h3 id="concepts-clock">Clock</h3>
 
-The sequencer is driven by a flexible clock system. In master mode, the clock is generated internally and can be sent to external gear and modules using MIDI clock and analog clock signals. In slave mode, the clock is received from an external source via MIDI or analog clock signals. For convenience, the clock is by default set to an auto mode that automatically switches to master mode when the sequencer is started manually or switches to the slave mode when an external clock signal is detected.
+The sequencer is driven by a flexible clock system. In master mode, the clock is generated internally and can be sent to external gear and modules using MIDI clock and analog clock signals. In slave mode, the clock is received from an external source via MIDI or analog clock signals. For convenience, the clock is set to an auto mode by default that automatically switches to master mode when the sequencer is started manually or switches to the slave mode when an external clock signal is detected.
 
-To allow accurate and tight timing, the internal clock resolution is 192 parts per quarter note (PPQN). In master mode, a hardware timer is used to generate an accurate, low-jitter clock signal. To drive external clock signals, the internal clock is divided down to the required PPQN of the external clock signals. In slave mode, the external clock signal is multiplied internally to generate the 192 PPQN internal clock resolution, which in turn is used to clock the sequencer as well as the external clock signals.
+To allow for accurate timing, the internal clock is running at a resolution of 192 parts per quarter note (PPQN). In master mode, a hardware timer is used to generate a low-jitter clock signal. To drive external clock signals, the internal clock is divided down to the required PPQN of the external clock signals. In slave mode, the external clock signal is multiplied internally to generate the 192 PPQN internal clock resolution, which in turn is used to clock the sequencer as well as the external clock signals.
 
-TODO
+TODO discuss control signals (maybe also appendix)
+
+The clock system is configured on the [Clock](#pages-clock) page.
 
 <!-- Routing -->
 
 <h3 id="concepts-routing">Routing</h3>
 
-TODO
+Many of the parameters in the sequencer can be controlled from external signals. This is useful for both experimentation and for controlling the sequencer with additional controllers in a live performance. The following sources can be used in the routing system:
+
+- 4 CV inputs
+- 8 CV outputs (allows for intermodulation without patching)
+- MIDI controllers (pitch bend, controller change, individual notes)
+
+Each _route_ is a mapping from a source signal to a parameter, including a mapping of the source range to a parameter range. For example, an external CV signal can be mapped to the master clock tempo such that -5V - +5V maps to 100 - 140 BPM.
+
+The routing system also implements a MIDI learn function, which allows to easily map MIDI controllers to specific parameters. Routes can be created and edited on the [Routing](#pages-routing) page.
 
 <!-- Controller -->
 
 <h3 id="concepts-controller">Controller</h3>
 
-TODO
+In addition to the routing system, specific MIDI controllers such as the Novation Launchpad can be used to control many aspects of the sequencer. This includes editing sequences, controlling mutes, launching patterns among other things.
+
+> Note: Launchpad is currently the only support controller but others may follow.
+
+See [Launchpad](#appendix-launchpad) for more details.
 
 <!-- File Management -->
 
