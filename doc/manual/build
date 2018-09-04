@@ -40,6 +40,7 @@ def process_images():
         "page-performer.png",
         "page-project.png",
         "page-routing.png",
+        "page-routing-edit.png",
         "page-sequence-edit.png",
         "page-sequence.png",
         "page-song-chain-example.png",
