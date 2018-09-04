@@ -451,9 +451,9 @@ This page allows to change project wide parameters as well loading and saving pr
 
 The following parameters are available:
 
-| Item | Range | Description |
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
-| Name | - | Press `ENCODER` to enter text editor for chaning the project name. |
+| Name | - | Press `ENCODER` to enter text editor for changing the project name. |
 | Tempo | 1.0 - 1000.0 BPM | Tempo of the master clock. |
 | Swing | 50% - 75% | Global swing amount. |
 | Sync Measure | 1 - 128 | Multiple of measures/bars at which to execute _syncing_ (see [Pattern](#pages-pattern) and [Performer](#pages-performer) pages) as well as the duration each pattern slot is played for in song mode (see [Song](#pages-song) page). |
@@ -542,16 +542,16 @@ Hold `SHIFT` + `PAGE` to open the context menu and access the following function
 
 If a track is in _Note_ mode, the following parameters are available:
 
-| Item | Range | Description |
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
-| Play Mode | [Play Modes](#appendix-play-modes) | The play mode used for playing sequences in this track. |
-| Fill Mode | None, Gates, Next Pattern |  |
-| Slide Time | 0% - 100% | The duration of slides for steps with slide enabled. |
-| Octave | -10 - +10 | The number of octaves to transpose the sequence up or down. |
-| Transpose | -100 - +100 | The number of notes to transpose the sequence up or down. Note that this depends on the current [Scale](#appendix-scales) of the sequence.
-| Rotate | [Rotation](#appendix-rotation) | The amount of rotation applied to the sequence. |
-| Gate Prob Bias | -100% - +100% | The gate probability bias that is added to the sequence. |
-| Length Bias | -100% - +100% | The length bias bias that is added to the sequence. |
+| Play Mode | [Play Modes](#appendix-play-modes) | Mode used for playing sequences in this track. |
+| Fill Mode | None, Gates, Next Pattern | TODO |
+| Slide Time | 0% - 100% | Duration of voltage slides for steps that have _Slide_ enabled. |
+| Octave | -10 - +10 | Number of octaves to transpose the sequence up or down. |
+| Transpose | -100 - +100 | Number of notes to transpose the sequence up or down. Note that this depends on the current [Scale](#appendix-scales) of the sequence.
+| Rotate | [Rotation](#appendix-rotation) |Amount of rotation applied to the sequence. |
+| Gate Prob Bias | -100% - +100% | Gate probability bias that is added to the sequence. |
+| Length Bias | -100% - +100% | Length bias bias that is added to the sequence. |
 
 > Note: _Slide Time_, _Octave_, _Transpose_, _Rotate_, _Gate Prob Bias_ and _Length Bias_ are routable parameters. These parameters are great for live performance, as they allow to change how the sequence is played back without actually changing the sequence itself.
 
@@ -561,11 +561,11 @@ If a track is in _Note_ mode, the following parameters are available:
 
 If a track is in _Curve_ mode, the following parameters are available:
 
-| Item | Range | Description |
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
-| Play Mode | [Play Modes](#appendix-play-modes) | The play mode used for playing sequences in this track. |
+| Play Mode | [Play Modes](#appendix-play-modes) | Mode used for playing sequences in this track. |
 | Fill Mode | None, Gates, Next Pattern | TODO |
-| Rotate | [Rotation](#appendix-rotation) | The amount of rotation applied to the sequence. |
+| Rotate | [Rotation](#appendix-rotation) | Amount of rotation applied to the sequence. |
 
 > Note: _Rotate_ is a routable parameter.
 
@@ -575,14 +575,14 @@ If a track is in _Curve_ mode, the following parameters are available:
 
 If a track is in MIDI/CV mode, the following parameters are available:
 
-| Item | Range | Description |
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
 | Source | MIDI, USB | MIDI source port (hold `SHIFT` and rotate `ENCODER` to select MIDI channel). |
 | Voices | 1 - 8 | Number of voices. |
 | Voice Config | Pitch, Pitch\|Vel, Pitch\|Vel\|Press | CV signals to generate for each voice. |
 | Pitch Bend | off, 1 - 48 semitones | Pitch bend range. |
 | Mod Range | 1-5V Unipolar, 1-5V Bipolar | CV output voltage range for modulation signals (velocity and pressure). |
-| Retrigger | no, yes | Retrigger voices on each received note on MIDI message. |
+| Retrigger | no, yes | Retrigger voices on each received _Note On_ MIDI message. |
 
 <!-- Sequence -->
 
@@ -613,23 +613,21 @@ Hold `SHIFT` + `PAGE` to open the context menu and access the following function
 
 If a track is in _Note_ mode, the following parameters are available:
 
-| Item | Range | Description |
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
 | Scale | [Scales](#appendix-scales) | Scale to use for this sequence. If set to _Default_, uses the default scale set on the [Project](#pages-project) page. |
 | Root Note | C, C#, D, D#, E, F, F#, G, G#, A, B | Root note to use for this sequence. If set to _Default_, uses the default root note set on the [Project](#pages-project) page. |
-| Divisor | [Divisors](#appendix-divisors) | The time divisor for this sequence. |
+| Divisor | [Divisors](#appendix-divisors) | Time divisor for this sequence. |
 | Reset Measure | off, 1 - 128 | Number of measures/bars at which to reset the sequence. |
-| Run Mode | [Run Modes](#appendix-run-modes) | The run mode in which to play.  |
-| First Step | 1 - 64 | The first step to play. |
-| Last Step | 1 - 64 | The last step to play. |
+| Run Mode | [Run Modes](#appendix-run-modes) | Mode in which to play the sequence.  |
+| First Step | 1 - 64 | First step to play. |
+| Last Step | 1 - 64 | Last step to play. |
 
 <h4>Curve Track</h4>
 
 ![](images/page-curve-sequence.png)
 
 If a track is in _Curve_ mode, the following parameters are available:
-
-
 
 <!-- Sequence Edit -->
 
@@ -817,7 +815,7 @@ To create a new route, select one of the empty routes that has _Target_ value se
 
 Once the routing target is selected, the following parameters are available for configuration:
 
-| Parameter  | Range | Description |
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
 | Target | Routable Parameters | Target parameter to affect by this route. |
 | Min | - | Value to set the target parameter to when source is at the minimum value. |
@@ -910,19 +908,19 @@ The _Clock_ page is entered using `PAGE` + `CLOCK`.
 
 This page is used to setup the clock system of the sequencer using the following parameters:
 
-| Parameter  | Range | Description |
+| Parameter | Range | Description |
 | :--- | :--- | :--- |
 | Mode | Auto, Master, Slave | Clock mode |
-| Shift Mode | Restart, Pause | The action to perform when `SHIFT` + `PLAY` is pressed: In _Restart_ mode, the master clock is restarted. In _Pause_ mode, the master clock is stopped/resumed. |
-| Input Divisor | [Divisors](#appendix-divisors) | The musical note at which to interpret incoming clock pulses. The divisor is actually used as a clock multiplier to generate the internal 192 PPQN clock resolution. |
-| Input Mode | Reset, Run, Start/Stop | The mode in which to handle the incoming clock control signal. In _Reset_ mode, the clock is kept in reset state while a high signal is read. In _Run_ mode, the clock is only run when the signal is high. In _Start/Stop_ mode, the clock is started when a high signal is read and stopped/paused when a low signal is read. |
-| Output Divisor | [Divisors](#appendix-divisors) | The musical note at which to generate outgoing clock pulses. The divisor is used to divide the internal 192 PPQN clock resolution to generate the outgoing clock pulses. |
+| Shift Mode | Restart, Pause | Action to perform when `SHIFT` + `PLAY` is pressed: In _Restart_ mode, the master clock is restarted. In _Pause_ mode, the master clock is stopped/resumed. |
+| Input Divisor | [Divisors](#appendix-divisors) | Musical note duration at which to interpret incoming clock pulses. The divisor is actually used as a clock multiplier to generate the internal 192 PPQN clock resolution. |
+| Input Mode | Reset, Run, Start/Stop | Mode in which to handle the incoming clock control signal. In _Reset_ mode, the clock is kept in reset state while a high signal is read. In _Run_ mode, the clock is only run when the signal is high. In _Start/Stop_ mode, the clock is started when a high signal is read and stopped/paused when a low signal is read. |
+| Output Divisor | [Divisors](#appendix-divisors) | Musical note duration at which to generate outgoing clock pulses. The divisor is used to divide the internal 192 PPQN clock resolution to generate the outgoing clock pulses. |
 | Output Pulse | 1 - 5 ms | Duration of the outgoing clock pulses. |
-| Output Mode | Reset, Run | The mode for generating the outgoing clock control signal. In _Reset_ mode, the signal is high when the clock is stopped and in reset state. In _Run_ mode, the signal is high when the clock is currently running. |
-| MIDI RX | yes, no | Enable/disable receiving MIDI clock from MIDI. |
-| MIDI TX | yes, no | Enable/disable sending MIDI clock to MIDI. |
-| USB RX | yes, no | Enable/disable receiving MIDI clock from USB. |
-| USB TX | yes, no | Enable/disable sending MIDI clock to USB. |
+| Output Mode | Reset, Run | Mode for generating the outgoing clock control signal. In _Reset_ mode, the signal is high when the clock is stopped and in reset state. In _Run_ mode, the signal is high when the clock is currently running. |
+| MIDI RX | yes, no | Receive MIDI clock from MIDI. |
+| MIDI TX | yes, no | Transmit MIDI clock to MIDI. |
+| USB RX | yes, no | Receive MIDI clock from USB. |
+| USB TX | yes, no | Transmit MIDI clock to USB. |
 
 TODO
 
