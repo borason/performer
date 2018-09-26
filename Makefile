@@ -143,6 +143,10 @@ setup_www:
 
 # Deployment
 
+.PHONY: tag
+tag:
+	./scripts/tag
+
 .PHONY: deploy
 deploy:
 	./scripts/deploy

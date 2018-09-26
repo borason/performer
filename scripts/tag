@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+import re
+import subprocess
+
+CONFIG='src/apps/sequencer/Config.h'
+
+text = open(CONFIG, 'r').read()
+
+major = int(re.search('CONFIG_VERSION_MAJOR\s+(\d+)', text).group(1))
+minor = int(re.search('CONFIG_VERSION_MINOR\s+(\d+)', text).group(1))
+revision = int(re.search('CONFIG_VERSION_REVISION\s+(\d+)', text).group(1))
+
+tag = 'v%d.%d.%d' % (major, minor, revision)
+
+print('creating tag %s ...' % (tag))
+
+subprocess.call(['git', 'tag', '-a', tag, '-m', tag])
