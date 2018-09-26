@@ -55,5 +55,9 @@ jobs:
       - chmod a+x build-www.sh
       # Build
       - /alpine/enter-chroot -u $USER ./build-www.sh
-      after_success:
-      - make deploy-simulator
+      # Deploy to github pages
+      deploy:
+        provider: script
+        script: make deploy-simulator
+        on:
+          tags: true
